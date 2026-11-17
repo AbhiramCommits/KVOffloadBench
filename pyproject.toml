@@ -49,9 +49,6 @@ dev = [
 [project.scripts]
 kvoffloadbench = "kvoffloadbench.cli:main"
 
-[project.urls]
-Homepage = "https://github.com/example/KVOffloadBench"
-
 [tool.setuptools.packages.find]
 include = ["kvoffloadbench*"]
 
