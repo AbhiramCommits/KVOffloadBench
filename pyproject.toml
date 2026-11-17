@@ -1,0 +1,110 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kvoffloadbench"
+version = "0.1.0"
+description = "Benchmark harness for tiered KV-cache offload in LLM serving"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "KVOffloadBench contributors" }]
+keywords = ["kv-cache", "llm-serving", "nvme-of", "storage", "benchmark"]
+classifiers = [
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: System :: Benchmark",
+]
+dependencies = [
+  "torch>=2.2",
+  "transformers>=4.40",
+  "numpy>=1.26",
+  "pandas>=2.1",
+  "pyarrow>=14.0",
+  "matplotlib>=3.8",
+  "PyYAML>=6.0",
+  "prometheus-client>=0.20",
+  "rich>=13.0",
+]
+
+[project.optional-dependencies]
+gpu = [
+  "vllm>=0.6.3",
+  "lmcache>=0.2.5",
+  "nixl>=0.2 ; python_version >= '3.9'",
+]
+dev = [
+  "pytest>=8.0",
+  "pytest-asyncio>=0.23",
+  "pytest-cov>=4.1",
+  "ruff>=0.6",
+  "mypy>=1.10",
+  "pandas-stubs>=2.1",
+  "types-PyYAML>=6.0",
+]
+
+[project.scripts]
+kvoffloadbench = "kvoffloadbench.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/example/KVOffloadBench"
+
+[tool.setuptools.packages.find]
+include = ["kvoffloadbench*"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = "-ra"
+asyncio_mode = "auto"
+markers = [
+  "slow: long-running integration tests",
+]
+filterwarnings = [
+  "ignore::DeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["kvoffloadbench"]
+omit = ["kvoffloadbench/__init__.py"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+  "pragma: no cover",
+  "if TYPE_CHECKING:",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["kvoffloadbench", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+ignore = ["E501", "B008", "SIM108", "RUF012"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011", "SIM117"]
+"kvoffloadbench/engines/vllm_lmcache.py" = ["F401"]
+"kvoffloadbench/engines/nixl.py" = ["F401"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["kvoffloadbench"]
+strict = true
+warn_unused_ignores = false
+disallow_untyped_calls = false
+ignore_missing_imports = true
+exclude = "(^build/|^results/)"
+
+[[tool.mypy.overrides]]
+module = ["torch.*", "transformers.*", "vllm.*", "lmcache.*", "nixl.*", "pandas.*", "matplotlib.*", "prometheus_client.*", "rich.*", "pyarrow.*"]
+ignore_missing_imports = true
+follow_imports = "skip"
