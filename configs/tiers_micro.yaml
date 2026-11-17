@@ -1,0 +1,39 @@
+# Tier microbenchmark matrix.
+# Every point is measured for real; there are no synthetic throughput numbers.
+duration_s: 0.5
+working_set_mib: 64
+max_bytes_per_point: 268435456
+seed: 7
+block_kib: [4, 16, 64, 256, 1024]
+queue_depth: [1, 8, 32]
+patterns: [sequential, random]
+ops: [write, read]
+
+tiers:
+  - name: dram
+    kind: dram
+    capacity_mib: 512
+    working_set_mib: 64
+    extra:
+      direct_io: false
+
+  - name: nvme_local
+    kind: nvme
+    capacity_mib: 2048
+    path: results/cache/microbench/nvme-{block_kib}.bin
+    working_set_mib: 64
+
+  - name: remote_tcp
+    kind: remote_tcp
+    capacity_mib: 1024
+    endpoint: 127.0.0.1:4420
+    target_path: results/cache/microbench/target.bin
+    target_capacity_mib: 1024
+    working_set_mib: 64
+
+  - name: nvmeof_block
+    kind: nvmeof_block
+    capacity_mib: 1024
+    optional: true
+    extra:
+      device_env: KVOB_NVMEOF_DEV

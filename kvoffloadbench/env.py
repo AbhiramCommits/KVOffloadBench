@@ -7,6 +7,7 @@ empty values so that a manifest can always be written, even on a broken host.
 
 from __future__ import annotations
 
+import contextlib
 import glob
 import hashlib
 import importlib.metadata
@@ -19,7 +20,7 @@ import socket
 import subprocess
 import sys
 import tempfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -140,7 +141,7 @@ def _gpus() -> dict[str, Any]:
             info["device"] = "cuda"
         elif info["mps_available"]:
             info["device"] = "mps"
-    except Exception as exc:  # noqa: BLE001 - fingerprint must never fail
+    except Exception as exc:
         info["torch_error"] = f"{type(exc).__name__}: {exc}"
     return info
 
@@ -221,10 +222,8 @@ def _probe_direct_io() -> dict[str, Any]:
     except OSError as exc:
         result["detail"] = f"{type(exc).__name__}: {exc}"
     finally:
-        try:
+        with contextlib.suppress(OSError):
             path.unlink()
-        except OSError:
-            pass
     return result
 
 
@@ -245,7 +244,7 @@ def fingerprint(repo: Path | None = None, include_pip_freeze: bool = True) -> di
     gpu = _gpus()
     freeze_sha, freeze_count = _pip_freeze() if include_pip_freeze else (None, 0)
     return {
-        "timestamp_utc": datetime.now(timezone.utc).isoformat(),
+        "timestamp_utc": datetime.now(UTC).isoformat(),
         "hostname": socket.gethostname(),
         "platform": platform.platform(),
         "system": platform.system(),

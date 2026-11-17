@@ -16,9 +16,10 @@ from __future__ import annotations
 import dataclasses
 import itertools
 import re
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Iterable, Mapping
+from typing import Any
 
 import yaml
 
@@ -612,7 +613,7 @@ def load_sweep(path: str | Path) -> list[RunConfig]:
 
     seen: set[str] = set()
     run_configs: list[RunConfig] = []
-    for block, axis_names in zip(blocks, axis_sets):
+    for block, axis_names in zip(blocks, axis_sets, strict=False):
         value_lists = []
         for axis in axis_names:
             if axis in block:
@@ -622,7 +623,7 @@ def load_sweep(path: str | Path) -> list[RunConfig]:
         for combo in itertools.product(*value_lists):
             assignment: dict[str, Any] = {}
             labels: dict[str, str] = {}
-            for axis, (value, label) in zip(axis_names, combo):
+            for axis, (value, label) in zip(axis_names, combo, strict=False):
                 assignment[axis] = value
                 labels[axis] = label
             if any(_subset_match(assignment, pat) for pat in exclude_raw if isinstance(pat, dict)):

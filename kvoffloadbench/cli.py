@@ -5,7 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from typing import Sequence
+from collections.abc import Sequence
 
 from kvoffloadbench import __version__
 from kvoffloadbench.env import fingerprint
@@ -68,7 +68,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_bt.add_argument(
         "--out", default="results/tiers/microbench.csv", help="output CSV path"
     )
-    p_bt.set_defaults(func=_not_implemented)
+    p_bt.set_defaults(func=_cmd_bench_tiers)
 
     p_replay = sub.add_parser("replay", help="replay one traced workload against an engine")
     p_replay.add_argument("--config", required=True, help="run config YAML")
@@ -109,6 +109,12 @@ def _cmd_env(args: argparse.Namespace) -> int:
         )
     )
     return 0
+
+
+def _cmd_bench_tiers(args: argparse.Namespace) -> int:
+    from kvoffloadbench.bench.tiers import main as bench_main
+
+    return bench_main(args.config, args.out)
 
 
 def main(argv: Sequence[str] | None = None) -> int:
