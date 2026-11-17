@@ -21,6 +21,7 @@ import subprocess
 import sys
 import tempfile
 from datetime import UTC, datetime
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -268,3 +269,9 @@ def fingerprint(repo: Path | None = None, include_pip_freeze: bool = True) -> di
 
 def fingerprint_json(**kwargs: Any) -> str:
     return json.dumps(fingerprint(**kwargs), indent=2, sort_keys=True, default=str)
+
+
+@lru_cache(maxsize=1)
+def cached_fingerprint() -> dict[str, Any]:
+    """Fingerprint once per process; reused in every run manifest of a sweep."""
+    return fingerprint()

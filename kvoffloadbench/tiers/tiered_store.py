@@ -10,6 +10,7 @@ tiers feed the analysis stage.
 from __future__ import annotations
 
 import threading
+import time
 from collections.abc import Sequence
 from dataclasses import dataclass
 
@@ -32,9 +33,11 @@ class StoreCounters:
     offload_ops: int = 0
     restore_bytes: int = 0
     restore_ops: int = 0
+    restore_seconds: float = 0.0
     lookup_restore_bytes: int = 0
     lookup_restore_seconds: float = 0.0
     promotions: int = 0
+    promotion_skips: int = 0
     drops: int = 0
 
     def to_dict(self) -> dict[str, int | float]:
@@ -48,9 +51,11 @@ class StoreCounters:
             "offload_ops": self.offload_ops,
             "restore_bytes": self.restore_bytes,
             "restore_ops": self.restore_ops,
+            "restore_seconds": self.restore_seconds,
             "lookup_restore_bytes": self.lookup_restore_bytes,
             "lookup_restore_seconds": self.lookup_restore_seconds,
             "promotions": self.promotions,
+            "promotion_skips": self.promotion_skips,
             "drops": self.drops,
         }
 
@@ -101,47 +106,69 @@ class TieredKVStore:
                 f"block {block_id!r} ({len(data)} bytes) exceeds the last tier "
                 f"capacity ({tier.capacity_bytes} bytes)"
             )
+        if index == len(self.tiers) - 1:
+            # The last tier owns its own eviction policy (the TCP target uses a
+            # server-side LRU); there is nowhere to demote to.
+            tier.put(block_id, data)
+            return
         while tier.resident_bytes + len(data) > tier.capacity_bytes:
-            evicted = tier.evict_lru(1)
+            try:
+                evicted = tier.evict_lru(1)
+            except TierError:
+                break
             if not evicted:
                 break
             for victim_id, victim_data in evicted:
-                if index + 1 < len(self.tiers):
-                    self._note_offload(len(victim_data))
-                    self._insert(index + 1, victim_id, victim_data)
-                else:
-                    with self._counter_lock:
-                        self.counters.drops += 1
+                self._note_offload(len(victim_data))
+                self._insert(index + 1, victim_id, victim_data)
         tier.put(block_id, data)
 
     def get(self, block_id: str) -> bytes | None:
         with self._counter_lock:
             self.counters.gets += 1
+        t0 = time.perf_counter()
         for index, tier in enumerate(self.tiers):
             data = tier.get(block_id)
             if data is None:
                 continue
             if index > 0:
                 self._promote(index, block_id, data)
+                elapsed = time.perf_counter() - t0
                 with self._counter_lock:
                     self.counters.restore_bytes += len(data)
                     self.counters.restore_ops += 1
+                    self.counters.restore_seconds += elapsed
             return data
         return None
 
     def _promote(self, index: int, block_id: str, data: bytes) -> None:
-        """Move a block hit in tier ``index`` back toward the hot tier."""
+        """Move a block hit in tier ``index`` back toward the hot tier.
+
+        Promotion is admission-controlled: if no hotter tier has room, the
+        block stays where it is instead of evicting (and cascading a demotion
+        of) another live block. Unconditional promotion on every hit turns a
+        sequential prefix scan into a write-amplification storm, which is a
+        real cache pathology this benchmark must not accidentally measure.
+        """
+        promoted = False
         for target in range(index):
             target_tier = self.tiers[target]
-            if len(data) <= target_tier.capacity_bytes:
-                self._insert(target, block_id, data)
+            if target_tier.contains(block_id):
+                promoted = True
                 break
-        # Remove the cold copy now that a hotter copy exists.
-        cold = self.tiers[index]
-        if cold.contains(block_id):
-            cold.evict(block_id)
-        with self._counter_lock:
-            self.counters.promotions += 1
+            if target_tier.resident_bytes + len(data) <= target_tier.capacity_bytes:
+                target_tier.put(block_id, data)
+                promoted = True
+                break
+        if promoted:
+            cold = self.tiers[index]
+            if cold.contains(block_id):
+                cold.evict(block_id)
+            with self._counter_lock:
+                self.counters.promotions += 1
+        else:
+            with self._counter_lock:
+                self.counters.promotion_skips += 1
 
     def lookup(self, block_ids: Sequence[str]) -> tuple[int, int, int, float]:
         """Look up many blocks, promoting hits; return hit/miss/bytes/seconds."""

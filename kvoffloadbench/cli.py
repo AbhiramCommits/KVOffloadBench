@@ -74,7 +74,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_replay.add_argument("--config", required=True, help="run config YAML")
     p_replay.add_argument("--metrics-port", type=int, default=0, help="Prometheus port (0=off)")
     p_replay.add_argument("--duration", type=float, default=None, help="override duration_s")
-    p_replay.set_defaults(func=_not_implemented)
+    p_replay.set_defaults(func=_cmd_replay)
 
     p_sweep = sub.add_parser("sweep", help="expand and run a sweep matrix")
     p_sweep.add_argument("--config", required=True, help="sweep config YAML")
@@ -85,7 +85,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_gen = sub.add_parser("gen-traces", help="generate deterministic request traces")
     p_gen.add_argument("--out", default="traces/", help="output directory")
     p_gen.add_argument("--seed", type=int, default=2024, help="generator seed")
-    p_gen.set_defaults(func=_not_implemented)
+    p_gen.set_defaults(func=_cmd_gen_traces)
 
     p_val = sub.add_parser("validate", help="verify KV offload/reload correctness")
     p_val.add_argument("--out", default="results/validation/kv_correctness.json")
@@ -121,6 +121,25 @@ def _cmd_validate(args: argparse.Namespace) -> int:
     from kvoffloadbench.validate import main as validate_main
 
     return validate_main(args.config, args.out)
+
+
+def _cmd_gen_traces(args: argparse.Namespace) -> int:
+    from kvoffloadbench.traces.generate import main as traces_main
+
+    return traces_main(args.out, args.seed)
+
+
+def _cmd_replay(args: argparse.Namespace) -> int:
+    import asyncio
+
+    from kvoffloadbench.config import load_run_config
+    from kvoffloadbench.harness.replay import run_replay
+
+    run = load_run_config(args.config)
+    asyncio.run(
+        run_replay(run, metrics_port=args.metrics_port, duration_override=args.duration)
+    )
+    return 0
 
 
 def main(argv: Sequence[str] | None = None) -> int:

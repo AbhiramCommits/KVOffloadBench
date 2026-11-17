@@ -1,0 +1,43 @@
+name: dram_nvme_remote
+description: DRAM -> local NVMe file -> NVMe-oF-style TCP target; measures restore cost.
+engine:
+  mode: auto
+  model: gpt2
+  tensor_parallel: 1
+  max_model_len: 32768
+  connector: lmcache
+  calibration_path: results/calibration/engine_calibration.json
+  model_shape:
+    layers: 12
+    kv_heads: 2
+    head_dim: 64
+    dtype: float16
+    block_tokens: 16
+tiers:
+  - kind: dram
+    capacity_mib: 128
+    block_size_kib: 128
+  - kind: nvme
+    capacity_mib: 256
+    block_size_kib: 128
+    path: results/cache/replay/nvme.bin
+    queue_depth: 8
+  - kind: remote_tcp
+    capacity_mib: 1024
+    block_size_kib: 128
+    endpoint: 127.0.0.1:4430
+    queue_depth: 8
+    extra:
+      target_path: results/cache/target/replay.bin
+      target_capacity_mib: 1024
+workload:
+  trace: longctx_multiturn
+  request_rate: 4
+  context_tokens: 16384
+  max_concurrency: 16
+  duration_s: 15
+  warmup_s: 2
+  seed: 2024
+slo:
+  ttft_ms: 4000
+  tpot_ms: 120

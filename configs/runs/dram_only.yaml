@@ -1,0 +1,30 @@
+name: dram_only
+description: Hot KV cache in host DRAM only; baseline for restore/tier comparisons.
+engine:
+  mode: auto
+  model: gpt2
+  tensor_parallel: 1
+  max_model_len: 32768
+  connector: lmcache
+  calibration_path: results/calibration/engine_calibration.json
+  model_shape:
+    layers: 12
+    kv_heads: 2
+    head_dim: 64
+    dtype: float16
+    block_tokens: 16
+tiers:
+  - kind: dram
+    capacity_mib: 512
+    block_size_kib: 128
+workload:
+  trace: longctx_multiturn
+  request_rate: 4
+  context_tokens: 16384
+  max_concurrency: 16
+  duration_s: 15
+  warmup_s: 2
+  seed: 2024
+slo:
+  ttft_ms: 4000
+  tpot_ms: 120

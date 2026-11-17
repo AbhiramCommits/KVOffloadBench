@@ -263,6 +263,7 @@ class EmulatedEngine:
         filler = self._tokenizer.encode(" the", add_special_tokens=False)
         self._filler = filler or [220]
         self._vocab_size = int(getattr(self._tokenizer, "vocab_size", 50257) or 50257)
+        self._group_streams: dict[str, list[int]] = {}
         self._payload_cache: OrderedDict[str, bytes] = OrderedDict()
         self._stats_lock = threading.Lock()
         self._requests = 0
@@ -292,10 +293,31 @@ class EmulatedEngine:
         target = req.prompt_tokens or len(ids)
         if len(ids) >= target:
             return ids[:target]
-        filler = (self._filler * ((target - len(ids)) // len(self._filler) + 1))[
-            : target - len(ids)
-        ]
-        return ids + filler
+        group = req.prefix_group or req.request_id
+        return ids + self._group_filler(group, target - len(ids))
+
+    def _group_filler(self, group: str, count: int) -> list[int]:
+        """Deterministic per-group token stream used to reach the target length.
+
+        Requests in the same prefix group receive the same stream, so extending
+        a conversation preserves an exact token prefix; different groups never
+        share filler. The stream is generated once per group and cycled.
+        """
+        stream = self._group_streams.get(group)
+        if stream is None:
+            low = 1000
+            span = max(1, self._vocab_size - low)
+            stream = [
+                low
+                + int.from_bytes(
+                    hashlib.sha256(f"{group}:{i}".encode()).digest()[:4], "big"
+                )
+                % span
+                for i in range(2048)
+            ]
+            self._group_streams[group] = stream
+        reps = count // len(stream) + 1
+        return (stream * reps)[:count]
 
     def _payload(self, block_id: str, nbytes: int) -> bytes:
         cached = self._payload_cache.get(block_id)
@@ -435,3 +457,16 @@ class EmulatedEngine:
 
     async def close(self) -> None:
         return None
+
+    def reset_stats(self) -> None:
+        with self._stats_lock:
+            self._requests = 0
+            self._tokens = 0
+            self._blocks_looked_up = 0
+            self._blocks_hit = 0
+            self._blocks_missed = 0
+            self._restored_bytes = 0
+            self._decode_blocks_put = 0
+            self._prefill_compute_s = 0.0
+            self._decode_compute_s = 0.0
+            self._io_s = 0.0
