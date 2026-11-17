@@ -191,6 +191,23 @@ class TieredKVStore:
                 moved += 1
         return moved
 
+    def demote_all_to_last(self) -> int:
+        """Force every block in every non-final tier down to the last tier."""
+        if len(self.tiers) < 2:
+            return 0
+        moved = 0
+        for index in range(len(self.tiers) - 1):
+            source = self.tiers[index]
+            while True:
+                evicted = source.evict_lru(1)
+                if not evicted:
+                    break
+                for victim_id, data in evicted:
+                    self._note_offload(len(data))
+                    self._insert(len(self.tiers) - 1, victim_id, data)
+                    moved += 1
+        return moved
+
     def _note_offload(self, nbytes: int) -> None:
         with self._counter_lock:
             self.counters.offload_bytes += nbytes

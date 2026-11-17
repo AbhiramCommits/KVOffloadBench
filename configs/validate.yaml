@@ -1,0 +1,38 @@
+# KV correctness validation. Every tier is exercised for real; the NVMe-oF
+# block tier joins automatically when scripts/setup_nvmeof_tcp.sh has been run.
+blocks: 8
+seed: 7
+max_tokens: 8
+token_prompts:
+  - "You are a careful database assistant. Answer using only the provided context. Context: The storage hierarchy starts in HBM, spills to host DRAM, then local NVMe, then a remote NVMe-oF namespace. Each tier has a different bandwidth, IOPS and tail latency profile. Question: which tier binds first when context grows to 32768 tokens?"
+  - "System: you are an SRE for an inference cluster. Incident notes: after enabling prefix caching, TTFT dropped for repeated system prompts but p99 rose for cold requests. The remote NVMe-oF target reported queue depth saturation. Question: what should be measured next?"
+  - "Summarize the following design review: LMCache stores KV chunks on local disk; NIXL moves them between agents; a BlueField-3 DPU exposes an NVMe-oF namespace. The SLO is 2 seconds TTFT and 100 ms TPOT at 8 requests per second."
+
+shape:
+  layers: 12
+  kv_heads: 2
+  head_dim: 64
+  dtype: float16
+  block_tokens: 16
+
+engine:
+  mode: emulated
+  model: gpt2
+  tensor_parallel: 1
+  max_model_len: 32768
+  connector: lmcache
+  calibration_path: results/calibration/engine_calibration.json
+
+tiers:
+  dram:
+    capacity_mib: 32
+  nvme:
+    path: results/cache/validate/nvme.bin
+    capacity_mib: 256
+  remote:
+    endpoint: 127.0.0.1:4424
+    target_path: results/cache/validate/target.bin
+    target_capacity_mib: 256
+  nvmeof:
+    capacity_mib: 256
+    optional: true

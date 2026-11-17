@@ -90,7 +90,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_val = sub.add_parser("validate", help="verify KV offload/reload correctness")
     p_val.add_argument("--out", default="results/validation/kv_correctness.json")
     p_val.add_argument("--config", default="configs/validate.yaml")
-    p_val.set_defaults(func=_not_implemented)
+    p_val.set_defaults(func=_cmd_validate)
 
     p_an = sub.add_parser("analyze", help="regenerate tables and figures from results/")
     p_an.add_argument("--results", default="results/", help="results directory")
@@ -115,6 +115,12 @@ def _cmd_bench_tiers(args: argparse.Namespace) -> int:
     from kvoffloadbench.bench.tiers import main as bench_main
 
     return bench_main(args.config, args.out)
+
+
+def _cmd_validate(args: argparse.Namespace) -> int:
+    from kvoffloadbench.validate import main as validate_main
+
+    return validate_main(args.config, args.out)
 
 
 def main(argv: Sequence[str] | None = None) -> int:

@@ -1,0 +1,262 @@
+{
+  "block_bytes": 98304,
+  "block_size_kib": 128,
+  "blocks_compared": 40,
+  "byte_mismatches": 0,
+  "calibration": {
+    "calibration_id": "20261117T213537Z",
+    "decode_ms_per_token": 8.428763001575135,
+    "decode_s": 0.008428763001575135,
+    "decode_steps": 16,
+    "decode_tokens_per_s": 118.64137119683207,
+    "device": "mps",
+    "device_candidates": [
+      "mps",
+      "cpu"
+    ],
+    "device_errors": [],
+    "dtype": "float32",
+    "hostname": "Abhirams-MacBook-Air.local",
+    "model": "gpt2",
+    "model_parameters": 124439808,
+    "notes": "Measured with torch.inference_mode() on this host. Prefill is measured on a 1024-token sequence and applied linearly per token; decode is measured with a growing KV cache. These timings drive the emulated engine's sleeps; tier I/O is measured separately and is real.",
+    "platform": "macOS-27.2.1-arm64-arm-64bit",
+    "prefill_ms_per_token": 0.21389173698101635,
+    "prefill_reps": 3,
+    "prefill_s": 0.21902513866856074,
+    "prefill_seq_len": 1024,
+    "prefill_tokens_per_s": 4675.262420673846,
+    "python_version": "3.11.14",
+    "timestamp_utc": "2026-11-17T21:35:37.459002+00:00",
+    "torch_version": "2.15.0",
+    "transformers_version": "5.23.0"
+  },
+  "engine": "gpt2",
+  "hostname": "Abhirams-MacBook-Air.local",
+  "mode": "emulated",
+  "model_shape": {
+    "block_tokens": 16,
+    "bytes_per_block": 98304,
+    "bytes_per_token": 6144,
+    "dtype": "float16",
+    "head_dim": 64,
+    "kv_heads": 2,
+    "layers": 12,
+    "tensor_parallel": 1
+  },
+  "prompts": [
+    "You are a careful database assistant. Answer using only the provided context. Context: The storage hierarchy starts in HBM, spills to host DRAM, then local NVMe, then a remote NVMe-oF namespace. Each tier has a different bandwidth, IOPS and tail latency profile. Question: which tier binds first when context grows to 32768 tokens?",
+    "System: you are an SRE for an inference cluster. Incident notes: after enabling prefix caching, TTFT dropped for repeated system prompts but p99 rose for cold requests. The remote NVMe-oF target reported queue depth saturation. Question: what should be measured next?",
+    "Summarize the following design review: LMCache stores KV chunks on local disk; NIXL moves them between agents; a BlueField-3 DPU exposes an NVMe-oF namespace. The SLO is 2 seconds TTFT and 100 ms TPOT at 8 requests per second."
+  ],
+  "real_engine_note": "This host has no CUDA GPU, so the greedy equivalence check uses the calibrated emulated engine. The byte/tensor checks exercise real tier I/O. On a GPU host the same module uses vLLM with offload disabled vs enabled for the token check.",
+  "roundtrip": [
+    {
+      "block_bytes": 131072,
+      "blocks_compared": 8,
+      "byte_mismatches": 0,
+      "capacity_bytes": 33554432,
+      "io_mode": "dram",
+      "kind": "dram",
+      "sha_mismatches": 0,
+      "tier": "dram"
+    },
+    {
+      "block_bytes": 131072,
+      "blocks_compared": 8,
+      "byte_mismatches": 0,
+      "capacity_bytes": 268435456,
+      "io_mode": "fnocache",
+      "kind": "nvme",
+      "sha_mismatches": 0,
+      "tier": "nvme"
+    },
+    {
+      "block_bytes": 131072,
+      "blocks_compared": 8,
+      "byte_mismatches": 0,
+      "capacity_bytes": 268435456,
+      "io_mode": "tcp",
+      "kind": "remote_tcp",
+      "sha_mismatches": 0,
+      "tier": "remote_tcp"
+    }
+  ],
+  "sha_mismatches": 0,
+  "tiered_store": {
+    "blocks_in_last_tier": 8,
+    "blocks_put": 8,
+    "byte_mismatches": 0,
+    "chain": [
+      "dram",
+      "nvme",
+      "remote_tcp"
+    ],
+    "demoted_blocks": 8,
+    "last_tier": "remote_tcp",
+    "promoted_read_mismatches": 0,
+    "tier_stats": {
+      "counters": {
+        "drops": 0,
+        "gets": 8,
+        "lookup_hits": 0,
+        "lookup_misses": 0,
+        "lookup_restore_bytes": 0,
+        "lookup_restore_seconds": 0.0,
+        "lookups": 0,
+        "offload_bytes": 786432,
+        "offload_ops": 8,
+        "promotions": 8,
+        "puts": 8,
+        "restore_bytes": 786432,
+        "restore_ops": 8
+      },
+      "hit_distribution": [
+        0,
+        0,
+        16
+      ],
+      "name": "validation_chain",
+      "resident_bytes": [
+        786432,
+        0,
+        0
+      ],
+      "tiers": [
+        {
+          "block_bytes": 131072,
+          "bytes_read": 0,
+          "bytes_written": 1572864,
+          "capacity_bytes": 2097152,
+          "direct_io_requested": false,
+          "errors": 0,
+          "evictions": 8,
+          "gets": 8,
+          "hit_rate": 0.0,
+          "hits": 0,
+          "io_mode": "dram",
+          "misses": 8,
+          "puts": 16,
+          "queue_depth": 8,
+          "read_latency_us": {
+            "count": 8.0,
+            "max": 1.584,
+            "mean": 0.8335,
+            "p50": 0.7709999999999999,
+            "p95": 1.4089999999999998,
+            "p99": 1.549
+          },
+          "resident_bytes": 786432,
+          "tier": "dram",
+          "write_latency_us": {
+            "count": 16.0,
+            "max": 19.5,
+            "mean": 12.432375,
+            "p50": 12.125,
+            "p95": 18.156,
+            "p99": 19.231199999999998
+          }
+        },
+        {
+          "block_bytes": 131072,
+          "bytes_read": 0,
+          "bytes_written": 0,
+          "capacity_bytes": 268435456,
+          "direct_io_requested": true,
+          "errors": 0,
+          "evictions": 0,
+          "gets": 8,
+          "hit_rate": 0.0,
+          "hits": 0,
+          "io_mode": "fnocache",
+          "misses": 8,
+          "puts": 0,
+          "queue_depth": 8,
+          "read_latency_us": {
+            "count": 8.0,
+            "max": 2.583,
+            "mean": 0.8123750000000001,
+            "p50": 0.521,
+            "p95": 2.014249999999999,
+            "p99": 2.4692499999999997
+          },
+          "resident_bytes": 0,
+          "tier": "nvme",
+          "write_latency_us": {
+            "count": 0.0,
+            "max": 0.0,
+            "mean": 0.0,
+            "p50": 0.0,
+            "p95": 0.0,
+            "p99": 0.0
+          }
+        },
+        {
+          "block_bytes": 131072,
+          "bytes_read": 1572864,
+          "bytes_written": 786432,
+          "capacity_bytes": 268435456,
+          "direct_io_requested": false,
+          "errors": 0,
+          "evictions": 0,
+          "gets": 16,
+          "hit_rate": 1.0,
+          "hits": 16,
+          "io_mode": "tcp",
+          "misses": 0,
+          "puts": 8,
+          "queue_depth": 8,
+          "read_latency_us": {
+            "count": 16.0,
+            "max": 701.0,
+            "mean": 289.952875,
+            "p50": 252.83350000000002,
+            "p95": 486.656,
+            "p99": 658.1311999999999
+          },
+          "resident_bytes": 0,
+          "tier": "remote_tcp",
+          "write_latency_us": {
+            "count": 8.0,
+            "max": 353.75,
+            "mean": 269.73425,
+            "p50": 253.2705,
+            "p95": 329.94999999999993,
+            "p99": 348.99
+          }
+        }
+      ]
+    }
+  },
+  "tiered_store_blocks_tracked_before": 8,
+  "tiers_checked": [
+    "dram",
+    "nvme",
+    "remote_tcp"
+  ],
+  "timestamp_utc": "2026-11-17T21:36:01.811192+00:00",
+  "token_chains": {
+    "dram_nvme": {
+      "exact_match_rate": 1.0,
+      "exact_matches": 24,
+      "reference_sha256": "42243f0386091dae9585c7059e25b9b4381241fa078dd55a11aeffd52a25e88d",
+      "sequences_compared": 3,
+      "tokens_compared": 24
+    },
+    "dram_nvme_remote_tcp": {
+      "exact_match_rate": 1.0,
+      "exact_matches": 24,
+      "reference_sha256": "42243f0386091dae9585c7059e25b9b4381241fa078dd55a11aeffd52a25e88d",
+      "sequences_compared": 3,
+      "tokens_compared": 24
+    },
+    "dram_only": {
+      "exact_match_rate": 1.0,
+      "exact_matches": 24,
+      "reference_sha256": "42243f0386091dae9585c7059e25b9b4381241fa078dd55a11aeffd52a25e88d",
+      "sequences_compared": 3,
+      "tokens_compared": 24
+    }
+  },
+  "token_exact_match_rate": 1.0
+}

@@ -1,0 +1,28 @@
+{
+  "calibration_id": "20261117T213537Z",
+  "decode_ms_per_token": 8.428763001575135,
+  "decode_s": 0.008428763001575135,
+  "decode_steps": 16,
+  "decode_tokens_per_s": 118.64137119683207,
+  "device": "mps",
+  "device_candidates": [
+    "mps",
+    "cpu"
+  ],
+  "device_errors": [],
+  "dtype": "float32",
+  "hostname": "Abhirams-MacBook-Air.local",
+  "model": "gpt2",
+  "model_parameters": 124439808,
+  "notes": "Measured with torch.inference_mode() on this host. Prefill is measured on a 1024-token sequence and applied linearly per token; decode is measured with a growing KV cache. These timings drive the emulated engine's sleeps; tier I/O is measured separately and is real.",
+  "platform": "macOS-27.2.1-arm64-arm-64bit",
+  "prefill_ms_per_token": 0.21389173698101635,
+  "prefill_reps": 3,
+  "prefill_s": 0.21902513866856074,
+  "prefill_seq_len": 1024,
+  "prefill_tokens_per_s": 4675.262420673846,
+  "python_version": "3.11.14",
+  "timestamp_utc": "2026-11-17T21:35:37.459002+00:00",
+  "torch_version": "2.15.0",
+  "transformers_version": "5.23.0"
+}
