@@ -9,6 +9,7 @@ tiers feed the analysis stage.
 
 from __future__ import annotations
 
+import logging
 import threading
 import time
 from collections.abc import Sequence
@@ -336,15 +337,13 @@ def build_store(
     tier_cfgs: Sequence[TierConfig],
     name: str = "tiered",
     fallback_remote: bool = True,
-    logger: object | None = None,
+    logger: logging.Logger | None = None,
 ) -> TieredKVStore:
     """Build a tier chain, degrading an unavailable NVMe-oF device to TCP.
 
     The fallback is explicit and logged (and recorded by the caller in the run
     manifest); it never silently changes the chain without a trace.
     """
-    import logging
-
     log = logger or logging.getLogger(__name__)
     remote_cfg = next((c for c in tier_cfgs if c.kind == "remote_tcp"), None)
     tiers: list[KVTier] = []

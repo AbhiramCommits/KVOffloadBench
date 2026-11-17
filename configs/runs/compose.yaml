@@ -1,0 +1,42 @@
+# Example deployment inside docker compose (remote target hostname = target).
+name: compose
+description: GPU host talking to the containerized NVMe-oF-style TCP target.
+engine:
+  mode: auto
+  model: meta-llama/Llama-3.3-70B-Instruct
+  tensor_parallel: 4
+  max_model_len: 32768
+  connector: lmcache
+  gpu_memory_utilization: 0.9
+  max_num_seqs: 64
+tiers:
+  - kind: hbm
+    capacity_mib: 8192
+    block_size_kib: 128
+  - kind: dram
+    capacity_mib: 65536
+    block_size_kib: 128
+  - kind: nvme
+    capacity_mib: 131072
+    block_size_kib: 128
+    path: /data/nvme.bin
+    queue_depth: 32
+  - kind: remote_tcp
+    capacity_mib: 262144
+    block_size_kib: 128
+    endpoint: target:4420
+    queue_depth: 32
+    extra:
+      target_path: /data/target.bin
+      target_capacity_mib: 262144
+workload:
+  trace: longctx_multiturn
+  request_rate: 4
+  context_tokens: 32768
+  max_concurrency: 64
+  duration_s: 60
+  warmup_s: 5
+  seed: 2024
+slo:
+  ttft_ms: 2000
+  tpot_ms: 80

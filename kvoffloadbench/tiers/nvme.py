@@ -14,6 +14,7 @@ import platform
 import threading
 import time
 from collections import OrderedDict
+from collections.abc import Sequence
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -197,7 +198,9 @@ class NVMeTier(KVTier):
                 )
             return self._executor
 
-    def put_many(self, items: list[tuple[str, memoryview | bytes]]) -> None:
+    def put_many(
+        self, items: Sequence[tuple[str, memoryview | bytes]]
+    ) -> None:
         pool = self._pool()
         if pool is None:
             for block_id, data in items:
@@ -205,7 +208,7 @@ class NVMeTier(KVTier):
             return
         list(pool.map(lambda item: self.put(item[0], item[1]), items))
 
-    def get_many(self, block_ids: list[str]) -> list[bytes | None]:
+    def get_many(self, block_ids: Sequence[str]) -> list[bytes | None]:
         pool = self._pool()
         if pool is None:
             return [self.get(block_id) for block_id in block_ids]

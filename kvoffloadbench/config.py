@@ -593,7 +593,7 @@ def load_sweep(path: str | Path) -> list[RunConfig]:
         raise ConfigError("exclude must be a list of partial axis assignments")
 
     if include_raw is None:
-        blocks = [dict(axes_raw)]
+        blocks: list[dict[str, Any]] = [{}]
         axis_sets: list[list[str]] = [list(axis_values)]
     else:
         if not isinstance(include_raw, list) or not include_raw:
@@ -609,7 +609,9 @@ def load_sweep(path: str | Path) -> list[RunConfig]:
                     f"include[{i}] references unknown axes {unknown}; known: {sorted(axis_values)}"
                 )
             blocks.append(block)
-            axis_sets.append(list(block))
+            # Missing axes expand across their full global value list; the
+            # include block only narrows the axes it names.
+            axis_sets.append(list(axis_values))
 
     seen: set[str] = set()
     run_configs: list[RunConfig] = []
@@ -665,7 +667,9 @@ def load_sweep(path: str | Path) -> list[RunConfig]:
                 raise ConfigError("sweep must define a trace (via axis or workload_defaults)")
             workload = _build_workload(wl_raw, "workload")
 
-            cap_label = labels.get("kv_cache_capacity_mib", "")
+            cap_label = labels.get(
+                "kv_cache_capacity_mib", labels.get("capacity", "")
+            )
             run = RunConfig(
                 name=str(raw["name"]),
                 description=str(raw.get("description", "")),

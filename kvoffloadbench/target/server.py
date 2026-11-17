@@ -54,7 +54,7 @@ class TargetServer:
         self.host = host
         self.port = port
         self.max_inflight = max(1, max_inflight)
-        self._server: asyncio.AbstractServer | None = None
+        self._server: asyncio.Server | None = None
         self._connections: set[asyncio.Task[None]] = set()
 
     async def start(self) -> None:

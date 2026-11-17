@@ -1,0 +1,72 @@
+services:
+  target:
+    build: .
+    entrypoint: ["python3", "-m", "kvoffloadbench.target.server"]
+    command:
+      - "--host"
+      - "0.0.0.0"
+      - "--port"
+      - "4420"
+      - "--path"
+      - "/data/target.bin"
+      - "--capacity-mib"
+      - "32768"
+      - "--max-inflight"
+      - "128"
+    volumes:
+      - target-data:/data
+    ports:
+      - "4420:4420"
+
+  engine:
+    build: .
+    command:
+      - "replay"
+      - "--config"
+      - "configs/runs/compose.yaml"
+      - "--metrics-port"
+      - "9100"
+    environment:
+      KVOB_NVMEOF_DEV: ""
+    volumes:
+      - ./results:/app/results
+      - ./traces:/app/traces
+      - ./configs:/app/configs
+      - nvme-data:/data
+    ports:
+      - "9100:9100"
+    depends_on:
+      - target
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - engine
+
+  grafana:
+    image: grafana/grafana:11.3.0
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: kvoffloadbench
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboard.json:/var/lib/grafana/dashboards/kvoffloadbench.json:ro
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+
+volumes:
+  target-data:
+  nvme-data:

@@ -217,7 +217,7 @@ class RemoteTCPTier(KVTier):
             self._reset_conn()
             raise
 
-    def get_many(self, block_ids: list[str]) -> list[bytes | None]:
+    def get_many(self, block_ids: Sequence[str]) -> list[bytes | None]:
         pool = self._pool()
         if pool is None or len(block_ids) <= 1:
             return [self.get(block_id) for block_id in block_ids]
@@ -228,7 +228,9 @@ class RemoteTCPTier(KVTier):
             results.extend(future.result())
         return results
 
-    def put_many(self, items: list[tuple[str, memoryview | bytes]]) -> None:
+    def put_many(
+        self, items: Sequence[tuple[str, memoryview | bytes]]
+    ) -> None:
         pool = self._pool()
         payload = [(block_id, bytes(data)) for block_id, data in items]
         if pool is None or len(payload) <= 1:
@@ -266,7 +268,8 @@ class RemoteTCPTier(KVTier):
     @property
     def resident_bytes(self) -> int:
         try:
-            return int(self.server_stats().get("resident_bytes", 0))
+            value = self.server_stats().get("resident_bytes", 0)
+            return int(value) if isinstance(value, (int, float, str)) else 0
         except (TierError, OSError, ValueError):
             return 0
 

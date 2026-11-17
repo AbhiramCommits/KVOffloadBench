@@ -57,6 +57,7 @@ async def build_engine(
     avail = availability()
     reason_bits = [f"{k}={v}" for k, v in avail.items()]
 
+    engine: Engine
     if cfg.mode == "emulated":
         engine = await asyncio.to_thread(
             EmulatedEngine,

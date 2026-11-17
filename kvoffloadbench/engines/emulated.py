@@ -30,7 +30,7 @@ from collections import OrderedDict
 from collections.abc import AsyncIterator
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from kvoffloadbench.config import EngineConfig, ModelShape
 from kvoffloadbench.engines.base import (
@@ -116,7 +116,7 @@ def calibrate(
         try:
             existing = json.loads(out.read_text())
             if existing.get("model") == model_name and existing.get("prefill_ms_per_token"):
-                return existing
+                return cast(dict[str, Any], existing)
         except (json.JSONDecodeError, OSError):
             pass
 
@@ -205,7 +205,7 @@ def load_calibration(path: str | Path = CALIBRATION_PATH) -> dict[str, Any]:
     p = Path(path)
     if not p.is_file():
         return calibrate(out_path=p)
-    data = json.loads(p.read_text())
+    data = cast(dict[str, Any], json.loads(p.read_text()))
     for key in ("prefill_ms_per_token", "decode_ms_per_token", "device", "model"):
         if key not in data:
             raise EngineUnavailable(f"calibration file {p} is missing {key!r}")
@@ -289,7 +289,8 @@ class EmulatedEngine:
         return self.shape.bytes_per_block
 
     def _tokenize(self, req: GenerationRequest) -> list[int]:
-        ids = self._tokenizer.encode(req.text, add_special_tokens=False)
+        raw = self._tokenizer.encode(req.text, add_special_tokens=False)
+        ids = [int(token) for token in raw]
         target = req.prompt_tokens or len(ids)
         if len(ids) >= target:
             return ids[:target]
@@ -435,7 +436,7 @@ class EmulatedEngine:
             }
         store_stats = self.store.stats() if self.store is not None else None
         if store_stats is not None:
-            sc = store_stats["counters"]
+            sc = cast(dict[str, int], store_stats["counters"])
             counters.update(
                 {
                     "blocks_offloaded": sc["offload_ops"],

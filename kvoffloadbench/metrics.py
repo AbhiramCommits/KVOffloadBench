@@ -133,7 +133,7 @@ def human_rate(bytes_per_s: float) -> str:
 
 def request_timings(
     arrival_ns: int, token_timestamps_ns: Sequence[int]
-) -> dict[str, float]:
+) -> dict[str, Any]:
     """TTFT, TPOT, ITL and end-to-end latency for one request.
 
     TPOT uses the standard ``(e2e - ttft) / (n_out - 1)`` definition; with a

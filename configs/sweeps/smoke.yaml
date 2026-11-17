@@ -1,0 +1,42 @@
+# Smoke matrix for CI: two emulated points, small context, real DRAM tier.
+name: smoke
+description: Two-point emulated sweep used by CI; no GPU or remote target required.
+drop_caches: false
+
+engine:
+  mode: emulated
+  model: gpt2
+  tensor_parallel: 1
+  max_model_len: 4096
+  connector: lmcache
+  calibration_path: results/calibration/engine_calibration.json
+  model_shape:
+    layers: 12
+    kv_heads: 2
+    head_dim: 64
+    dtype: float16
+    block_tokens: 16
+
+slo:
+  ttft_ms: 4000
+  tpot_ms: 120
+
+workload_defaults:
+  max_concurrency: 4
+  duration_s: 1.0
+  warmup_s: 0.2
+  seed: 2024
+
+chains:
+  dram_only:
+    - kind: dram
+      capacity_mib: 64
+      block_size_kib: 128
+
+axes:
+  tier_chain: [dram_only]
+  request_rate: [1, 2]
+  context_tokens: [1024]
+  kv_cache_capacity_mib:
+    small: 64
+  trace: [agent_react]

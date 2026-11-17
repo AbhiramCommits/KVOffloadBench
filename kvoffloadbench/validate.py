@@ -347,9 +347,11 @@ async def run_validation(
                 store.close()
             matches = 0
             total = 0
-            for ref, got in zip(reference, seqs, strict=True):
-                total += len(ref)
-                matches += sum(1 for a, b in zip(ref, got, strict=True) if a == b)
+            for ref_seq, got_seq in zip(reference, seqs, strict=True):
+                total += len(ref_seq)
+                matches += sum(
+                    1 for a, b in zip(ref_seq, got_seq, strict=True) if a == b
+                )
             total_positions += total
             matched_positions += matches
             token_results[label] = {
@@ -365,7 +367,7 @@ async def run_validation(
         byte_mismatches = sum(r["byte_mismatches"] for r in roundtrip) + int(
             tiered_result.get("byte_mismatches", 0)
         ) + int(tiered_result.get("promoted_read_mismatches", 0))
-        result: dict[str, Any] = {
+        validation: dict[str, Any] = {
             "timestamp_utc": datetime.now(UTC).isoformat(),
             "hostname": socket.gethostname(),
             "mode": "emulated",
@@ -398,15 +400,15 @@ async def run_validation(
         }
         out = Path(out_path)
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(result, indent=2, sort_keys=True))
+        out.write_text(json.dumps(validation, indent=2, sort_keys=True))
         log.warning(
             "validation: blocks=%d byte_mismatches=%d token_match=%.3f -> %s",
-            result["blocks_compared"],
-            result["byte_mismatches"],
-            result["token_exact_match_rate"],
+            validation["blocks_compared"],
+            validation["byte_mismatches"],
+            validation["token_exact_match_rate"],
             out,
         )
-        return result
+        return validation
     finally:
         if target is not None:
             target.stop()
