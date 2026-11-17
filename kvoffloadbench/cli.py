@@ -80,7 +80,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_sweep.add_argument("--config", required=True, help="sweep config YAML")
     p_sweep.add_argument("--dry-run", action="store_true", help="print run ids and exit")
     p_sweep.add_argument("--metrics-port", type=int, default=0, help="Prometheus port (0=off)")
-    p_sweep.set_defaults(func=_not_implemented)
+    p_sweep.add_argument("--force", action="store_true", help="rerun points that already have metrics")
+    p_sweep.add_argument("--limit", type=int, default=None, help="only run the first N points")
+    p_sweep.set_defaults(func=_cmd_sweep)
 
     p_gen = sub.add_parser("gen-traces", help="generate deterministic request traces")
     p_gen.add_argument("--out", default="traces/", help="output directory")
@@ -94,7 +96,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_an = sub.add_parser("analyze", help="regenerate tables and figures from results/")
     p_an.add_argument("--results", default="results/", help="results directory")
-    p_an.set_defaults(func=_not_implemented)
+    p_an.set_defaults(func=_cmd_analyze)
 
     return parser
 
@@ -139,6 +141,35 @@ def _cmd_replay(args: argparse.Namespace) -> int:
     asyncio.run(
         run_replay(run, metrics_port=args.metrics_port, duration_override=args.duration)
     )
+    return 0
+
+
+def _cmd_sweep(args: argparse.Namespace) -> int:
+    from kvoffloadbench.harness.sweep import run_sweep
+
+    run_sweep(
+        args.config,
+        dry_run=args.dry_run,
+        force=args.force,
+        limit=args.limit,
+    )
+    return 0
+
+
+def _cmd_analyze(args: argparse.Namespace) -> int:
+    from kvoffloadbench.analysis.bottleneck import analyse
+    from kvoffloadbench.analysis.plots import generate_all
+    from kvoffloadbench.analysis.requirements import build_requirements
+
+    bottleneck = analyse(args.results)
+    requirements = build_requirements(args.results)
+    figures = generate_all(args.results)
+    print(
+        f"analyze: {len(bottleneck)} runs attributed, "
+        f"{len(requirements)} requirement rows, {len(figures)} figures"
+    )
+    for path in figures:
+        print(f"  {path}")
     return 0
 
 

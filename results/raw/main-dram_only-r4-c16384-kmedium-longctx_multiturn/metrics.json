@@ -1,0 +1,79 @@
+{
+  "active_tiers": [
+    "dram"
+  ],
+  "capacity_label": "medium",
+  "context_tokens": 16384,
+  "duration_s": 15.0,
+  "e2e_ms": {
+    "count": 58.0,
+    "max": 5212.915334,
+    "mean": 3204.9824390172407,
+    "p50": 3776.4508335,
+    "p95": 4360.480679449999,
+    "p99": 5119.22901737
+  },
+  "engine_mode": "emulated",
+  "engine_selection_reason": "auto mode: missing cuda, vllm; using calibrated emulation (cuda=False, vllm=False, lmcache=False, nixl=False)",
+  "goodput_fraction_of_attempted": 0.9655172413793104,
+  "goodput_req_s": 3.7333333333333334,
+  "goodput_requests": 56,
+  "itl_ms": {
+    "count": 2598.0,
+    "max": 38.030917,
+    "mean": 10.761350750962281,
+    "p50": 10.4726875,
+    "p95": 14.2089731,
+    "p99": 25.009941980000004
+  },
+  "kv_bytes_offloaded": 0,
+  "kv_bytes_restored": 0,
+  "max_concurrency": 16,
+  "name": "main",
+  "nvmeof_fell_back": false,
+  "offload_bandwidth_gib_s": 0.0,
+  "output_tokens_per_s": 177.06666666666666,
+  "output_tokens_total": 2656,
+  "per_tier_hits": [
+    4135
+  ],
+  "prefix_cache_hit_rate": 0.08730996621621621,
+  "request_rate": 4.0,
+  "requested_tiers": [
+    "dram"
+  ],
+  "requests_attempted": 58,
+  "requests_completed": 58,
+  "requests_failed": 0,
+  "requests_measured": 58,
+  "restore_bandwidth_gib_s": 0.0,
+  "restore_service_gib_s": 0.0,
+  "run_id": "main-dram_only-r4-c16384-kmedium-longctx_multiturn",
+  "slo": {
+    "tpot_ms": 120.0,
+    "ttft_ms": 4000.0
+  },
+  "tier_chain": "dram_only",
+  "tpot_ms": {
+    "count": 58.0,
+    "max": 13.175872322580645,
+    "mean": 10.777381594307572,
+    "p50": 10.621760191489361,
+    "p95": 11.85103044516129,
+    "p99": 12.551819851262868
+  },
+  "trace": "traces/longctx_multiturn.jsonl",
+  "trace_sha256": "3494c28288b559669595d10ed47a79d5f2bf8a82bbfada8d74e6c917da21b58f",
+  "ttft_ms": {
+    "count": 58.0,
+    "max": 4694.638,
+    "mean": 2722.948141586207,
+    "p50": 3382.9016874999998,
+    "p95": 3887.7777751,
+    "p99": 4691.85763519
+  },
+  "wall_clock_s": 24.02121616603108,
+  "warmup_requests": 4,
+  "warmup_s": 1.0,
+  "window_s": 15.0
+}

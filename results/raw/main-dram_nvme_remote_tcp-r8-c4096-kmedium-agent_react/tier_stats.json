@@ -1,0 +1,339 @@
+{
+  "active_tiers": [
+    "dram",
+    "nvme",
+    "remote_tcp"
+  ],
+  "engine": {
+    "blocks_offloaded": 30658,
+    "blocks_restored": 0,
+    "bytes_offloaded": 3013804032,
+    "bytes_restored": 0,
+    "calibration": {
+      "calibration_id": "20261117T213537Z",
+      "decode_ms_per_token": 8.428763001575135,
+      "decode_s": 0.008428763001575135,
+      "decode_steps": 16,
+      "decode_tokens_per_s": 118.64137119683207,
+      "device": "mps",
+      "device_candidates": [
+        "mps",
+        "cpu"
+      ],
+      "device_errors": [],
+      "dtype": "float32",
+      "hostname": "Abhirams-MacBook-Air.local",
+      "model": "gpt2",
+      "model_parameters": 124439808,
+      "notes": "Measured with torch.inference_mode() on this host. Prefill is measured on a 1024-token sequence and applied linearly per token; decode is measured with a growing KV cache. These timings drive the emulated engine's sleeps; tier I/O is measured separately and is real.",
+      "platform": "macOS-27.2.1-arm64-arm-64bit",
+      "prefill_ms_per_token": 0.21389173698101635,
+      "prefill_reps": 3,
+      "prefill_s": 0.21902513866856074,
+      "prefill_seq_len": 1024,
+      "prefill_tokens_per_s": 4675.262420673846,
+      "python_version": "3.11.14",
+      "timestamp_utc": "2026-11-17T21:35:37.459002+00:00",
+      "torch_version": "2.15.0",
+      "transformers_version": "5.23.0"
+    },
+    "decode_blocks_put": 151,
+    "decode_compute_s": 22.926235364284366,
+    "engine": "emulated",
+    "mode": "emulated",
+    "mode_selection_reason": "auto mode: missing cuda, vllm; using calibrated emulation (cuda=False, vllm=False, lmcache=False, nixl=False)",
+    "model": "gpt2",
+    "model_shape": {
+      "block_tokens": 16,
+      "bytes_per_block": 98304,
+      "bytes_per_token": 6144,
+      "dtype": "float16",
+      "head_dim": 64,
+      "kv_heads": 2,
+      "layers": 12,
+      "tensor_parallel": 1
+    },
+    "prefill_compute_s": 83.05159476888485,
+    "prefix_cache_hit_rate": 0.1827855603448276,
+    "prompt_blocks_hit": 5428,
+    "prompt_blocks_looked_up": 29696,
+    "prompt_blocks_missed": 24268,
+    "requests": 116,
+    "restored_bytes": 533594112,
+    "storage_io_s": 23.220601626,
+    "store": {
+      "counters": {
+        "drops": 0,
+        "gets": 29696,
+        "lookup_hits": 0,
+        "lookup_misses": 0,
+        "lookup_restore_bytes": 0,
+        "lookup_restore_seconds": 0.0,
+        "lookups": 0,
+        "offload_bytes": 3013804032,
+        "offload_ops": 30658,
+        "promotion_skips": 0,
+        "promotions": 0,
+        "puts": 24419,
+        "restore_bytes": 0,
+        "restore_ops": 0,
+        "restore_seconds": 0.0
+      },
+      "hit_distribution": [
+        5428,
+        0,
+        0
+      ],
+      "name": "main-dram_nvme_remote_tcp-r8-c4096-kmedium-agent_react",
+      "resident_bytes": [
+        536838144,
+        536870912,
+        951484416
+      ],
+      "tiers": [
+        {
+          "block_bytes": 131072,
+          "bytes_read": 533594112,
+          "bytes_written": 2400485376,
+          "capacity_bytes": 536870912,
+          "direct_io_requested": true,
+          "errors": 0,
+          "evictions": 20979,
+          "gets": 29696,
+          "hit_rate": 0.1827855603448276,
+          "hits": 5428,
+          "io_mode": "dram",
+          "misses": 24268,
+          "puts": 24419,
+          "queue_depth": 8,
+          "read_latency_us": {
+            "count": 29696.0,
+            "max": 2918.834,
+            "mean": 2.2844667632004265,
+            "p50": 0.833,
+            "p95": 8.708,
+            "p99": 14.166
+          },
+          "resident_bytes": 536838144,
+          "tier": "dram",
+          "write_latency_us": {
+            "count": 24419.0,
+            "max": 1352.25,
+            "mean": 14.992085343380142,
+            "p50": 10.791,
+            "p95": 31.4161,
+            "p99": 71.07643999999999
+          }
+        },
+        {
+          "block_bytes": 131072,
+          "bytes_read": 0,
+          "bytes_written": 2062319616,
+          "capacity_bytes": 536870912,
+          "direct_io_requested": true,
+          "errors": 0,
+          "evictions": 16883,
+          "gets": 24268,
+          "hit_rate": 0.0,
+          "hits": 0,
+          "io_mode": "fnocache",
+          "misses": 24268,
+          "puts": 20979,
+          "queue_depth": 8,
+          "read_latency_us": {
+            "count": 24268.0,
+            "max": 50.209,
+            "mean": 0.6820295038734124,
+            "p50": 0.542,
+            "p95": 1.167,
+            "p99": 2.083
+          },
+          "resident_bytes": 536870912,
+          "tier": "nvme",
+          "write_latency_us": {
+            "count": 20979.0,
+            "max": 9168.375,
+            "mean": 83.14492821392777,
+            "p50": 58.959,
+            "p95": 186.67109999999994,
+            "p99": 370.39724000000035
+          }
+        },
+        {
+          "block_bytes": 131072,
+          "bytes_read": 0,
+          "bytes_written": 951484416,
+          "capacity_bytes": 2147483648,
+          "direct_io_requested": true,
+          "errors": 0,
+          "evictions": 0,
+          "gets": 24268,
+          "hit_rate": 0.0,
+          "hits": 0,
+          "io_mode": "tcp",
+          "misses": 24268,
+          "puts": 9679,
+          "queue_depth": 8,
+          "read_latency_us": {
+            "count": 24268.0,
+            "max": 37867.208,
+            "mean": 281.6040043678928,
+            "p50": 218.667,
+            "p95": 611.042,
+            "p99": 1064.9839699999986
+          },
+          "resident_bytes": 951484416,
+          "tier": "remote_tcp",
+          "write_latency_us": {
+            "count": 9679.0,
+            "max": 37564.666,
+            "mean": 409.0070376071916,
+            "p50": 332.25,
+            "p95": 830.9830000000001,
+            "p99": 1303.870719999999
+          }
+        }
+      ]
+    },
+    "tokens_generated": 2720
+  },
+  "requested_tiers": [
+    "dram",
+    "nvme",
+    "remote_tcp"
+  ],
+  "store": {
+    "counters": {
+      "drops": 0,
+      "gets": 29696,
+      "lookup_hits": 0,
+      "lookup_misses": 0,
+      "lookup_restore_bytes": 0,
+      "lookup_restore_seconds": 0.0,
+      "lookups": 0,
+      "offload_bytes": 3013804032,
+      "offload_ops": 30658,
+      "promotion_skips": 0,
+      "promotions": 0,
+      "puts": 24419,
+      "restore_bytes": 0,
+      "restore_ops": 0,
+      "restore_seconds": 0.0
+    },
+    "hit_distribution": [
+      5428,
+      0,
+      0
+    ],
+    "name": "main-dram_nvme_remote_tcp-r8-c4096-kmedium-agent_react",
+    "resident_bytes": [
+      536838144,
+      536870912,
+      951484416
+    ],
+    "tiers": [
+      {
+        "block_bytes": 131072,
+        "bytes_read": 533594112,
+        "bytes_written": 2400485376,
+        "capacity_bytes": 536870912,
+        "direct_io_requested": true,
+        "errors": 0,
+        "evictions": 20979,
+        "gets": 29696,
+        "hit_rate": 0.1827855603448276,
+        "hits": 5428,
+        "io_mode": "dram",
+        "misses": 24268,
+        "puts": 24419,
+        "queue_depth": 8,
+        "read_latency_us": {
+          "count": 29696.0,
+          "max": 2918.834,
+          "mean": 2.2844667632004265,
+          "p50": 0.833,
+          "p95": 8.708,
+          "p99": 14.166
+        },
+        "resident_bytes": 536838144,
+        "tier": "dram",
+        "write_latency_us": {
+          "count": 24419.0,
+          "max": 1352.25,
+          "mean": 14.992085343380142,
+          "p50": 10.791,
+          "p95": 31.4161,
+          "p99": 71.07643999999999
+        }
+      },
+      {
+        "block_bytes": 131072,
+        "bytes_read": 0,
+        "bytes_written": 2062319616,
+        "capacity_bytes": 536870912,
+        "direct_io_requested": true,
+        "errors": 0,
+        "evictions": 16883,
+        "gets": 24268,
+        "hit_rate": 0.0,
+        "hits": 0,
+        "io_mode": "fnocache",
+        "misses": 24268,
+        "puts": 20979,
+        "queue_depth": 8,
+        "read_latency_us": {
+          "count": 24268.0,
+          "max": 50.209,
+          "mean": 0.6820295038734124,
+          "p50": 0.542,
+          "p95": 1.167,
+          "p99": 2.083
+        },
+        "resident_bytes": 536870912,
+        "tier": "nvme",
+        "write_latency_us": {
+          "count": 20979.0,
+          "max": 9168.375,
+          "mean": 83.14492821392777,
+          "p50": 58.959,
+          "p95": 186.67109999999994,
+          "p99": 370.39724000000035
+        }
+      },
+      {
+        "block_bytes": 131072,
+        "bytes_read": 0,
+        "bytes_written": 951484416,
+        "capacity_bytes": 2147483648,
+        "direct_io_requested": true,
+        "errors": 0,
+        "evictions": 0,
+        "gets": 24268,
+        "hit_rate": 0.0,
+        "hits": 0,
+        "io_mode": "tcp",
+        "misses": 24268,
+        "puts": 9679,
+        "queue_depth": 8,
+        "read_latency_us": {
+          "count": 24268.0,
+          "max": 37867.208,
+          "mean": 281.6040043678928,
+          "p50": 218.667,
+          "p95": 611.042,
+          "p99": 1064.9839699999986
+        },
+        "resident_bytes": 951484416,
+        "tier": "remote_tcp",
+        "write_latency_us": {
+          "count": 9679.0,
+          "max": 37564.666,
+          "mean": 409.0070376071916,
+          "p50": 332.25,
+          "p95": 830.9830000000001,
+          "p99": 1303.870719999999
+        }
+      }
+    ]
+  }
+}

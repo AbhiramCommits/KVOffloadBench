@@ -1,0 +1,79 @@
+{
+  "active_tiers": [
+    "dram"
+  ],
+  "capacity_label": "medium",
+  "context_tokens": 4096,
+  "duration_s": 15.0,
+  "e2e_ms": {
+    "count": 23.0,
+    "max": 1484.142209,
+    "mean": 1175.730741130435,
+    "p50": 1220.525334,
+    "p95": 1454.7486124999998,
+    "p99": 1478.05740302
+  },
+  "engine_mode": "emulated",
+  "engine_selection_reason": "auto mode: missing cuda, vllm; using calibrated emulation (cuda=False, vllm=False, lmcache=False, nixl=False)",
+  "goodput_fraction_of_attempted": 1.0,
+  "goodput_req_s": 1.5333333333333334,
+  "goodput_requests": 23,
+  "itl_ms": {
+    "count": 1033.0,
+    "max": 35.470708,
+    "mean": 10.628282674733779,
+    "p50": 10.486792,
+    "p95": 12.7693166,
+    "p99": 23.471412999999995
+  },
+  "kv_bytes_offloaded": 0,
+  "kv_bytes_restored": 0,
+  "max_concurrency": 16,
+  "name": "main",
+  "nvmeof_fell_back": false,
+  "offload_bandwidth_gib_s": 0.0,
+  "output_tokens_per_s": 70.4,
+  "output_tokens_total": 1056,
+  "per_tier_hits": [
+    1370
+  ],
+  "prefix_cache_hit_rate": 0.23267663043478262,
+  "request_rate": 2.0,
+  "requested_tiers": [
+    "dram"
+  ],
+  "requests_attempted": 23,
+  "requests_completed": 23,
+  "requests_failed": 0,
+  "requests_measured": 23,
+  "restore_bandwidth_gib_s": 0.0,
+  "restore_service_gib_s": 0.0,
+  "run_id": "main-dram_only-r2-c4096-kmedium-longctx_multiturn",
+  "slo": {
+    "tpot_ms": 120.0,
+    "ttft_ms": 4000.0
+  },
+  "tier_chain": "dram_only",
+  "tpot_ms": {
+    "count": 23.0,
+    "max": 13.659739361702128,
+    "mean": 10.646295703050836,
+    "p50": 10.380604507936507,
+    "p95": 12.867729534152582,
+    "p99": 13.522891056966369
+  },
+  "trace": "traces/longctx_multiturn.jsonl",
+  "trace_sha256": "3494c28288b559669595d10ed47a79d5f2bf8a82bbfada8d74e6c917da21b58f",
+  "ttft_ms": {
+    "count": 23.0,
+    "max": 904.639291,
+    "mean": 698.3822192608695,
+    "p50": 788.926625,
+    "p95": 897.6398083,
+    "p99": 904.24702198
+  },
+  "wall_clock_s": 20.027724542014766,
+  "warmup_requests": 3,
+  "warmup_s": 1.0,
+  "window_s": 15.0
+}

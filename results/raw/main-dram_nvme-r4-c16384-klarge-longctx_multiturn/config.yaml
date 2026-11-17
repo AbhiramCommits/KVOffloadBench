@@ -1,0 +1,60 @@
+name: main
+run_id: main-dram_nvme-r4-c16384-klarge-longctx_multiturn
+description: Tier chain x rate x context x cache capacity x trace on a calibrated
+  emulated engine.
+tier_chain: dram_nvme
+capacity_label: large
+axis_values:
+  tier_chain: dram_nvme
+  request_rate: 4
+  context_tokens: 16384
+  kv_cache_capacity_mib: 2048
+  trace: longctx_multiturn
+engine:
+  mode: auto
+  model: gpt2
+  tensor_parallel: 1
+  max_model_len: 32768
+  connector: lmcache
+  model_shape:
+    layers: 12
+    kv_heads: 2
+    head_dim: 64
+    dtype: float16
+    block_tokens: 16
+    tensor_parallel: 1
+    bytes_per_token: 6144
+    bytes_per_block: 98304
+  calibration_path: results/calibration/engine_calibration.json
+  dtype: auto
+  gpu_memory_utilization: 0.9
+  max_num_seqs: 128
+  nixl_agent_config: {}
+tiers:
+- kind: dram
+  capacity_mib: 2048
+  path: null
+  endpoint: null
+  block_size_kib: 128
+  queue_depth: 8
+  direct_io: true
+  extra: {}
+- kind: nvme
+  capacity_mib: 1024
+  path: results/cache/sweep/nvme.bin
+  endpoint: null
+  block_size_kib: 128
+  queue_depth: 8
+  direct_io: true
+  extra: {}
+workload:
+  trace: longctx_multiturn
+  request_rate: 4.0
+  context_tokens: 16384
+  max_concurrency: 16
+  duration_s: 15.0
+  seed: 2024
+  warmup_s: 1.0
+slo:
+  ttft_ms: 4000.0
+  tpot_ms: 120.0

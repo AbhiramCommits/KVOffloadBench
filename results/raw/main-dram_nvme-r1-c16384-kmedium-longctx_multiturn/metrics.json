@@ -1,0 +1,82 @@
+{
+  "active_tiers": [
+    "dram",
+    "nvme"
+  ],
+  "capacity_label": "medium",
+  "context_tokens": 16384,
+  "duration_s": 15.0,
+  "e2e_ms": {
+    "count": 15.0,
+    "max": 4194.542708,
+    "mean": 3113.8149252000003,
+    "p50": 3815.668959,
+    "p95": 4110.0229874,
+    "p99": 4177.63876388
+  },
+  "engine_mode": "emulated",
+  "engine_selection_reason": "auto mode: missing cuda, vllm; using calibrated emulation (cuda=False, vllm=False, lmcache=False, nixl=False)",
+  "goodput_fraction_of_attempted": 1.0,
+  "goodput_req_s": 1.0,
+  "goodput_requests": 15,
+  "itl_ms": {
+    "count": 673.0,
+    "max": 17.079208,
+    "mean": 10.251517956909353,
+    "p50": 10.474333,
+    "p95": 11.7522834,
+    "p99": 13.830646999999999
+  },
+  "kv_bytes_offloaded": 635535360,
+  "kv_bytes_restored": 0,
+  "max_concurrency": 16,
+  "name": "main",
+  "nvmeof_fell_back": false,
+  "offload_bandwidth_gib_s": 0.039459228515625,
+  "output_tokens_per_s": 45.86666666666667,
+  "output_tokens_total": 688,
+  "per_tier_hits": [
+    1162,
+    0
+  ],
+  "prefix_cache_hit_rate": 0.09456380208333333,
+  "request_rate": 1.0,
+  "requested_tiers": [
+    "dram",
+    "nvme"
+  ],
+  "requests_attempted": 15,
+  "requests_completed": 15,
+  "requests_failed": 0,
+  "requests_measured": 15,
+  "restore_bandwidth_gib_s": 0.0,
+  "restore_service_gib_s": 0.0,
+  "run_id": "main-dram_nvme-r1-c16384-kmedium-longctx_multiturn",
+  "slo": {
+    "tpot_ms": 120.0,
+    "ttft_ms": 4000.0
+  },
+  "tier_chain": "dram_nvme",
+  "tpot_ms": {
+    "count": 15.0,
+    "max": 10.534856382978724,
+    "mean": 10.234608919666778,
+    "p50": 10.278478723404255,
+    "p95": 10.498995803782506,
+    "p99": 10.527684267139481
+  },
+  "trace": "traces/longctx_multiturn.jsonl",
+  "trace_sha256": "3494c28288b559669595d10ed47a79d5f2bf8a82bbfada8d74e6c917da21b58f",
+  "ttft_ms": {
+    "count": 15.0,
+    "max": 3636.30925,
+    "mean": 2653.8634862000004,
+    "p50": 3443.255917,
+    "p95": 3596.0488375,
+    "p99": 3628.2571674999995
+  },
+  "wall_clock_s": 22.326446458988357,
+  "warmup_requests": 2,
+  "warmup_s": 1.0,
+  "window_s": 15.0
+}

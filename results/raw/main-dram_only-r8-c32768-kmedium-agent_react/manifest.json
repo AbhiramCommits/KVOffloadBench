@@ -1,0 +1,164 @@
+{
+  "active_tiers": [
+    "dram"
+  ],
+  "calibration": {
+    "calibration_id": "20261117T213537Z",
+    "decode_ms_per_token": 8.428763001575135,
+    "decode_s": 0.008428763001575135,
+    "decode_steps": 16,
+    "decode_tokens_per_s": 118.64137119683207,
+    "device": "mps",
+    "device_candidates": [
+      "mps",
+      "cpu"
+    ],
+    "device_errors": [],
+    "dtype": "float32",
+    "hostname": "Abhirams-MacBook-Air.local",
+    "model": "gpt2",
+    "model_parameters": 124439808,
+    "notes": "Measured with torch.inference_mode() on this host. Prefill is measured on a 1024-token sequence and applied linearly per token; decode is measured with a growing KV cache. These timings drive the emulated engine's sleeps; tier I/O is measured separately and is real.",
+    "platform": "macOS-27.2.1-arm64-arm-64bit",
+    "prefill_ms_per_token": 0.21389173698101635,
+    "prefill_reps": 3,
+    "prefill_s": 0.21902513866856074,
+    "prefill_seq_len": 1024,
+    "prefill_tokens_per_s": 4675.262420673846,
+    "python_version": "3.11.14",
+    "timestamp_utc": "2026-11-17T21:35:37.459002+00:00",
+    "torch_version": "2.15.0",
+    "transformers_version": "5.23.0"
+  },
+  "config": {
+    "axis_values": {
+      "context_tokens": 32768,
+      "kv_cache_capacity_mib": 512,
+      "request_rate": 8,
+      "tier_chain": "dram_only",
+      "trace": "agent_react"
+    },
+    "capacity_label": "medium",
+    "description": "Tier chain x rate x context x cache capacity x trace on a calibrated emulated engine.",
+    "engine": {
+      "calibration_path": "results/calibration/engine_calibration.json",
+      "connector": "lmcache",
+      "dtype": "auto",
+      "gpu_memory_utilization": 0.9,
+      "max_model_len": 32768,
+      "max_num_seqs": 128,
+      "mode": "auto",
+      "model": "gpt2",
+      "model_shape": {
+        "block_tokens": 16,
+        "bytes_per_block": 98304,
+        "bytes_per_token": 6144,
+        "dtype": "float16",
+        "head_dim": 64,
+        "kv_heads": 2,
+        "layers": 12,
+        "tensor_parallel": 1
+      },
+      "nixl_agent_config": {},
+      "tensor_parallel": 1
+    },
+    "name": "main",
+    "run_id": "main-dram_only-r8-c32768-kmedium-agent_react",
+    "slo": {
+      "tpot_ms": 120.0,
+      "ttft_ms": 4000.0
+    },
+    "tier_chain": "dram_only",
+    "tiers": [
+      {
+        "block_size_kib": 128,
+        "capacity_mib": 512,
+        "direct_io": true,
+        "endpoint": null,
+        "extra": {},
+        "kind": "dram",
+        "path": null,
+        "queue_depth": 8
+      }
+    ],
+    "workload": {
+      "context_tokens": 32768,
+      "duration_s": 15.0,
+      "max_concurrency": 16,
+      "request_rate": 8.0,
+      "seed": 2024,
+      "trace": "agent_react",
+      "warmup_s": 1.0
+    }
+  },
+  "engine_mode": "emulated",
+  "engine_selection_reason": "auto mode: missing cuda, vllm; using calibrated emulation (cuda=False, vllm=False, lmcache=False, nixl=False)",
+  "env": {
+    "cpu_count_logical": 8,
+    "cpu_count_physical": 8,
+    "cpu_model": "Apple M3",
+    "cuda_available": false,
+    "device": "mps",
+    "direct_io": {
+      "detail": "F_NOCACHE accepted; macOS has no O_DIRECT, so the page cache is bypassed on read but writes remain buffered",
+      "method": "F_NOCACHE",
+      "o_direct_flag": false,
+      "supported": true
+    },
+    "git_branch": "main",
+    "git_dirty": true,
+    "git_sha": "2151bd558d44e921becd099d1254a11d32ebfde9",
+    "gpus": [],
+    "hostname": "Abhirams-MacBook-Air.local",
+    "kernel": "27.2.0",
+    "machine": "arm64",
+    "mps_available": true,
+    "nvme_cli": null,
+    "nvme_devices": [],
+    "nvmeof_dev_env": null,
+    "nvmeof_dev_present": false,
+    "pip_freeze_sha256": "0c4a05ef918a08fd9044babb53e0848e661fb2cf4ac8228c0cc88748cae96d3c",
+    "pip_package_count": 67,
+    "platform": "macOS-27.2.1-arm64-arm-64bit",
+    "python_executable": "/Users/abhiramkasireddi/KVOffloadBench/.venv/bin/python",
+    "python_version": "3.11.14",
+    "system": "Darwin",
+    "timestamp_utc": "2026-11-17T21:49:34.908297+00:00",
+    "torch_cuda_version": null,
+    "total_ram_bytes": 17179869184,
+    "versions": {
+      "kvoffloadbench": "0.1.0",
+      "lmcache": null,
+      "matplotlib": "3.11.2",
+      "nixl": null,
+      "numpy": "2.4.6",
+      "pandas": "3.1.1",
+      "prometheus-client": "0.26.0",
+      "pyarrow": "26.0.1",
+      "torch": "2.15.0",
+      "transformers": "5.23.0",
+      "vllm": null
+    }
+  },
+  "finished_utc": "2026-11-17T22:09:21.364482+00:00",
+  "model_shape": {
+    "block_tokens": 16,
+    "bytes_per_block": 98304,
+    "bytes_per_token": 6144,
+    "dtype": "float16",
+    "head_dim": 64,
+    "kv_heads": 2,
+    "layers": 12,
+    "tensor_parallel": 1
+  },
+  "name": "main",
+  "requested_tiers": [
+    "dram"
+  ],
+  "run_id": "main-dram_only-r8-c32768-kmedium-agent_react",
+  "started_utc": "2026-11-17T22:09:02.485660+00:00",
+  "trace": "traces/agent_react.jsonl",
+  "trace_requests": 320,
+  "trace_sha256": "962545d05900b1cf4e54f0f581d1bda194f4027f5ef597569814e0c72e0eb403",
+  "wall_clock_s": 18.87841450003907
+}

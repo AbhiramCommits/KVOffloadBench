@@ -1,0 +1,265 @@
+{
+  "active_tiers": [
+    "dram",
+    "nvme"
+  ],
+  "engine": {
+    "blocks_offloaded": 21284,
+    "blocks_restored": 0,
+    "bytes_offloaded": 2092302336,
+    "bytes_restored": 0,
+    "calibration": {
+      "calibration_id": "20261117T213537Z",
+      "decode_ms_per_token": 8.428763001575135,
+      "decode_s": 0.008428763001575135,
+      "decode_steps": 16,
+      "decode_tokens_per_s": 118.64137119683207,
+      "device": "mps",
+      "device_candidates": [
+        "mps",
+        "cpu"
+      ],
+      "device_errors": [],
+      "dtype": "float32",
+      "hostname": "Abhirams-MacBook-Air.local",
+      "model": "gpt2",
+      "model_parameters": 124439808,
+      "notes": "Measured with torch.inference_mode() on this host. Prefill is measured on a 1024-token sequence and applied linearly per token; decode is measured with a growing KV cache. These timings drive the emulated engine's sleeps; tier I/O is measured separately and is real.",
+      "platform": "macOS-27.2.1-arm64-arm-64bit",
+      "prefill_ms_per_token": 0.21389173698101635,
+      "prefill_reps": 3,
+      "prefill_s": 0.21902513866856074,
+      "prefill_seq_len": 1024,
+      "prefill_tokens_per_s": 4675.262420673846,
+      "python_version": "3.11.14",
+      "timestamp_utc": "2026-11-17T21:35:37.459002+00:00",
+      "torch_version": "2.15.0",
+      "transformers_version": "5.23.0"
+    },
+    "decode_blocks_put": 333,
+    "decode_compute_s": 44.90844927239232,
+    "engine": "emulated",
+    "mode": "emulated",
+    "mode_selection_reason": "auto mode: missing cuda, vllm; using calibrated emulation (cuda=False, vllm=False, lmcache=False, nixl=False)",
+    "model": "gpt2",
+    "model_shape": {
+      "block_tokens": 16,
+      "bytes_per_block": 98304,
+      "bytes_per_token": 6144,
+      "dtype": "float16",
+      "head_dim": 64,
+      "kv_heads": 2,
+      "layers": 12,
+      "tensor_parallel": 1
+    },
+    "prefill_compute_s": 83.2090190873029,
+    "prefix_cache_hit_rate": 0.18123653017241378,
+    "prompt_blocks_hit": 5382,
+    "prompt_blocks_looked_up": 29696,
+    "prompt_blocks_missed": 24314,
+    "requests": 116,
+    "restored_bytes": 529072128,
+    "storage_io_s": 1.9096473950000004,
+    "store": {
+      "counters": {
+        "drops": 0,
+        "gets": 29696,
+        "lookup_hits": 0,
+        "lookup_misses": 0,
+        "lookup_restore_bytes": 0,
+        "lookup_restore_seconds": 0.0,
+        "lookups": 0,
+        "offload_bytes": 2092302336,
+        "offload_ops": 21284,
+        "promotion_skips": 0,
+        "promotions": 0,
+        "puts": 24647,
+        "restore_bytes": 0,
+        "restore_ops": 0,
+        "restore_seconds": 0.0
+      },
+      "hit_distribution": [
+        5382,
+        0
+      ],
+      "name": "main-dram_nvme-r8-c4096-kmedium-longctx_multiturn",
+      "resident_bytes": [
+        536838144,
+        1073741824
+      ],
+      "tiers": [
+        {
+          "block_bytes": 131072,
+          "bytes_read": 529072128,
+          "bytes_written": 2422898688,
+          "capacity_bytes": 536870912,
+          "direct_io_requested": true,
+          "errors": 0,
+          "evictions": 21284,
+          "gets": 29696,
+          "hit_rate": 0.18123653017241378,
+          "hits": 5382,
+          "io_mode": "dram",
+          "misses": 24314,
+          "puts": 24647,
+          "queue_depth": 8,
+          "read_latency_us": {
+            "count": 29696.0,
+            "max": 103.125,
+            "mean": 1.5272757947198563,
+            "p50": 0.5,
+            "p95": 6.125,
+            "p99": 11.542
+          },
+          "resident_bytes": 536838144,
+          "tier": "dram",
+          "write_latency_us": {
+            "count": 24647.0,
+            "max": 201.542,
+            "mean": 9.146964011847299,
+            "p50": 7.667,
+            "p95": 15.166,
+            "p99": 23.66654
+          }
+        },
+        {
+          "block_bytes": 131072,
+          "bytes_read": 0,
+          "bytes_written": 2092302336,
+          "capacity_bytes": 1073741824,
+          "direct_io_requested": true,
+          "errors": 0,
+          "evictions": 13092,
+          "gets": 24314,
+          "hit_rate": 0.0,
+          "hits": 0,
+          "io_mode": "fnocache",
+          "misses": 24314,
+          "puts": 21284,
+          "queue_depth": 8,
+          "read_latency_us": {
+            "count": 24314.0,
+            "max": 43.416,
+            "mean": 0.41403722135395116,
+            "p50": 0.375,
+            "p95": 0.708,
+            "p99": 1.041
+          },
+          "resident_bytes": 1073741824,
+          "tier": "nvme",
+          "write_latency_us": {
+            "count": 21284.0,
+            "max": 2468.542,
+            "mean": 53.37225718849816,
+            "p50": 45.959,
+            "p95": 83.667,
+            "p99": 175.46646999999948
+          }
+        }
+      ]
+    },
+    "tokens_generated": 5328
+  },
+  "requested_tiers": [
+    "dram",
+    "nvme"
+  ],
+  "store": {
+    "counters": {
+      "drops": 0,
+      "gets": 29696,
+      "lookup_hits": 0,
+      "lookup_misses": 0,
+      "lookup_restore_bytes": 0,
+      "lookup_restore_seconds": 0.0,
+      "lookups": 0,
+      "offload_bytes": 2092302336,
+      "offload_ops": 21284,
+      "promotion_skips": 0,
+      "promotions": 0,
+      "puts": 24647,
+      "restore_bytes": 0,
+      "restore_ops": 0,
+      "restore_seconds": 0.0
+    },
+    "hit_distribution": [
+      5382,
+      0
+    ],
+    "name": "main-dram_nvme-r8-c4096-kmedium-longctx_multiturn",
+    "resident_bytes": [
+      536838144,
+      1073741824
+    ],
+    "tiers": [
+      {
+        "block_bytes": 131072,
+        "bytes_read": 529072128,
+        "bytes_written": 2422898688,
+        "capacity_bytes": 536870912,
+        "direct_io_requested": true,
+        "errors": 0,
+        "evictions": 21284,
+        "gets": 29696,
+        "hit_rate": 0.18123653017241378,
+        "hits": 5382,
+        "io_mode": "dram",
+        "misses": 24314,
+        "puts": 24647,
+        "queue_depth": 8,
+        "read_latency_us": {
+          "count": 29696.0,
+          "max": 103.125,
+          "mean": 1.5272757947198563,
+          "p50": 0.5,
+          "p95": 6.125,
+          "p99": 11.542
+        },
+        "resident_bytes": 536838144,
+        "tier": "dram",
+        "write_latency_us": {
+          "count": 24647.0,
+          "max": 201.542,
+          "mean": 9.146964011847299,
+          "p50": 7.667,
+          "p95": 15.166,
+          "p99": 23.66654
+        }
+      },
+      {
+        "block_bytes": 131072,
+        "bytes_read": 0,
+        "bytes_written": 2092302336,
+        "capacity_bytes": 1073741824,
+        "direct_io_requested": true,
+        "errors": 0,
+        "evictions": 13092,
+        "gets": 24314,
+        "hit_rate": 0.0,
+        "hits": 0,
+        "io_mode": "fnocache",
+        "misses": 24314,
+        "puts": 21284,
+        "queue_depth": 8,
+        "read_latency_us": {
+          "count": 24314.0,
+          "max": 43.416,
+          "mean": 0.41403722135395116,
+          "p50": 0.375,
+          "p95": 0.708,
+          "p99": 1.041
+        },
+        "resident_bytes": 1073741824,
+        "tier": "nvme",
+        "write_latency_us": {
+          "count": 21284.0,
+          "max": 2468.542,
+          "mean": 53.37225718849816,
+          "p50": 45.959,
+          "p95": 83.667,
+          "p99": 175.46646999999948
+        }
+      }
+    ]
+  }
+}

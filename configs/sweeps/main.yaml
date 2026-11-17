@@ -1,0 +1,98 @@
+# Main experiment matrix.
+#
+# 68 real runs across five axes: tier chain, request rate, context length,
+# KV cache capacity, and trace. Each point runs 1 s of warmup plus 15 s of
+# measured Poisson arrivals; the whole matrix is sized to finish in well under
+# an hour on a laptop. Every tier does real I/O (file, O_DIRECT/F_NOCACHE, or a
+# real TCP target); the serving timing is calibrated from a real model run.
+name: main
+description: Tier chain x rate x context x cache capacity x trace on a calibrated emulated engine.
+drop_caches: false
+
+engine:
+  mode: auto
+  model: gpt2
+  tensor_parallel: 1
+  max_model_len: 32768
+  connector: lmcache
+  calibration_path: results/calibration/engine_calibration.json
+  model_shape:
+    layers: 12
+    kv_heads: 2
+    head_dim: 64
+    dtype: float16
+    block_tokens: 16
+
+slo:
+  ttft_ms: 4000
+  tpot_ms: 120
+
+workload_defaults:
+  max_concurrency: 16
+  duration_s: 15
+  warmup_s: 1.0
+  seed: 2024
+
+chains:
+  dram_only:
+    - kind: dram
+      capacity_mib: "${kv_cache_capacity_mib}"
+      block_size_kib: 128
+  dram_nvme:
+    - kind: dram
+      capacity_mib: "${kv_cache_capacity_mib}"
+      block_size_kib: 128
+    - kind: nvme
+      capacity_mib: 1024
+      block_size_kib: 128
+      path: results/cache/sweep/nvme.bin
+      queue_depth: 8
+  dram_nvme_remote_tcp:
+    - kind: dram
+      capacity_mib: "${kv_cache_capacity_mib}"
+      block_size_kib: 128
+    - kind: nvme
+      capacity_mib: 512
+      block_size_kib: 128
+      path: results/cache/sweep/nvme.bin
+      queue_depth: 8
+    - kind: remote_tcp
+      capacity_mib: 2048
+      block_size_kib: 128
+      endpoint: 127.0.0.1:4420
+      queue_depth: 8
+      extra:
+        target_path: results/cache/sweep/target.bin
+        target_capacity_mib: 2048
+
+axes:
+  tier_chain: [dram_only, dram_nvme, dram_nvme_remote_tcp]
+  request_rate: [1, 2, 4, 8]
+  context_tokens: [4096, 16384, 32768]
+  kv_cache_capacity_mib:
+    small: 64
+    medium: 512
+    large: 2048
+  trace: [longctx_multiturn, agent_react, shared_prefix_rag]
+
+include:
+  # 36 runs: tier chain x rate x context with a medium cache, long-context trace.
+  - tier_chain: [dram_only, dram_nvme, dram_nvme_remote_tcp]
+    request_rate: [1, 2, 4, 8]
+    context_tokens: [4096, 16384, 32768]
+    kv_cache_capacity_mib: [medium]
+    trace: [longctx_multiturn]
+
+  # 8 runs: cache capacity axis (small forces heavy offload, large avoids it).
+  - tier_chain: [dram_nvme, dram_nvme_remote_tcp]
+    request_rate: [4]
+    context_tokens: [16384]
+    kv_cache_capacity_mib: [small, large]
+    trace: [longctx_multiturn]
+
+  # 24 runs: trace axis (agent ReAct and shared-prefix RAG) across chains/rates.
+  - tier_chain: [dram_only, dram_nvme, dram_nvme_remote_tcp]
+    request_rate: [2, 8]
+    context_tokens: [4096, 32768]
+    kv_cache_capacity_mib: [medium]
+    trace: [agent_react, shared_prefix_rag]

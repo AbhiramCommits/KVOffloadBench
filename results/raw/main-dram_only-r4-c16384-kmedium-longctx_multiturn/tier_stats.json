@@ -1,0 +1,191 @@
+{
+  "active_tiers": [
+    "dram"
+  ],
+  "engine": {
+    "blocks_offloaded": 0,
+    "blocks_restored": 0,
+    "bytes_offloaded": 0,
+    "bytes_restored": 0,
+    "calibration": {
+      "calibration_id": "20261117T213537Z",
+      "decode_ms_per_token": 8.428763001575135,
+      "decode_s": 0.008428763001575135,
+      "decode_steps": 16,
+      "decode_tokens_per_s": 118.64137119683207,
+      "device": "mps",
+      "device_candidates": [
+        "mps",
+        "cpu"
+      ],
+      "device_errors": [],
+      "dtype": "float32",
+      "hostname": "Abhirams-MacBook-Air.local",
+      "model": "gpt2",
+      "model_parameters": 124439808,
+      "notes": "Measured with torch.inference_mode() on this host. Prefill is measured on a 1024-token sequence and applied linearly per token; decode is measured with a growing KV cache. These timings drive the emulated engine's sleeps; tier I/O is measured separately and is real.",
+      "platform": "macOS-27.2.1-arm64-arm-64bit",
+      "prefill_ms_per_token": 0.21389173698101635,
+      "prefill_reps": 3,
+      "prefill_s": 0.21902513866856074,
+      "prefill_seq_len": 1024,
+      "prefill_tokens_per_s": 4675.262420673846,
+      "python_version": "3.11.14",
+      "timestamp_utc": "2026-11-17T21:35:37.459002+00:00",
+      "torch_version": "2.15.0",
+      "transformers_version": "5.23.0"
+    },
+    "decode_blocks_put": 166,
+    "decode_compute_s": 22.386794532183558,
+    "engine": "emulated",
+    "mode": "emulated",
+    "mode_selection_reason": "auto mode: missing cuda, vllm; using calibrated emulation (cuda=False, vllm=False, lmcache=False, nixl=False)",
+    "model": "gpt2",
+    "model_shape": {
+      "block_tokens": 16,
+      "bytes_per_block": 98304,
+      "bytes_per_token": 6144,
+      "dtype": "float16",
+      "head_dim": 64,
+      "kv_heads": 2,
+      "layers": 12,
+      "tensor_parallel": 1
+    },
+    "prefill_compute_s": 147.92752529607088,
+    "prefix_cache_hit_rate": 0.08730996621621621,
+    "prompt_blocks_hit": 4135,
+    "prompt_blocks_looked_up": 47360,
+    "prompt_blocks_missed": 43225,
+    "requests": 58,
+    "restored_bytes": 406487040,
+    "storage_io_s": 1.2346363509999996,
+    "store": {
+      "counters": {
+        "drops": 0,
+        "gets": 47360,
+        "lookup_hits": 0,
+        "lookup_misses": 0,
+        "lookup_restore_bytes": 0,
+        "lookup_restore_seconds": 0.0,
+        "lookups": 0,
+        "offload_bytes": 0,
+        "offload_ops": 0,
+        "promotion_skips": 0,
+        "promotions": 0,
+        "puts": 43391,
+        "restore_bytes": 0,
+        "restore_ops": 0,
+        "restore_seconds": 0.0
+      },
+      "hit_distribution": [
+        4135
+      ],
+      "name": "main-dram_only-r4-c16384-kmedium-longctx_multiturn",
+      "resident_bytes": [
+        536838144
+      ],
+      "tiers": [
+        {
+          "block_bytes": 131072,
+          "bytes_read": 406487040,
+          "bytes_written": 4265508864,
+          "capacity_bytes": 536870912,
+          "direct_io_requested": true,
+          "errors": 0,
+          "evictions": 40438,
+          "gets": 47360,
+          "hit_rate": 0.08730996621621621,
+          "hits": 4135,
+          "io_mode": "dram",
+          "misses": 43225,
+          "puts": 43391,
+          "queue_depth": 8,
+          "read_latency_us": {
+            "count": 47360.0,
+            "max": 122.583,
+            "mean": 1.4417794974660338,
+            "p50": 0.417,
+            "p95": 8.75,
+            "p99": 16.60021999999984
+          },
+          "resident_bytes": 536838144,
+          "tier": "dram",
+          "write_latency_us": {
+            "count": 43391.0,
+            "max": 3301.833,
+            "mean": 13.735636214883291,
+            "p50": 8.5,
+            "p95": 29.291,
+            "p99": 51.79619999999994
+          }
+        }
+      ]
+    },
+    "tokens_generated": 2656
+  },
+  "requested_tiers": [
+    "dram"
+  ],
+  "store": {
+    "counters": {
+      "drops": 0,
+      "gets": 47360,
+      "lookup_hits": 0,
+      "lookup_misses": 0,
+      "lookup_restore_bytes": 0,
+      "lookup_restore_seconds": 0.0,
+      "lookups": 0,
+      "offload_bytes": 0,
+      "offload_ops": 0,
+      "promotion_skips": 0,
+      "promotions": 0,
+      "puts": 43391,
+      "restore_bytes": 0,
+      "restore_ops": 0,
+      "restore_seconds": 0.0
+    },
+    "hit_distribution": [
+      4135
+    ],
+    "name": "main-dram_only-r4-c16384-kmedium-longctx_multiturn",
+    "resident_bytes": [
+      536838144
+    ],
+    "tiers": [
+      {
+        "block_bytes": 131072,
+        "bytes_read": 406487040,
+        "bytes_written": 4265508864,
+        "capacity_bytes": 536870912,
+        "direct_io_requested": true,
+        "errors": 0,
+        "evictions": 40438,
+        "gets": 47360,
+        "hit_rate": 0.08730996621621621,
+        "hits": 4135,
+        "io_mode": "dram",
+        "misses": 43225,
+        "puts": 43391,
+        "queue_depth": 8,
+        "read_latency_us": {
+          "count": 47360.0,
+          "max": 122.583,
+          "mean": 1.4417794974660338,
+          "p50": 0.417,
+          "p95": 8.75,
+          "p99": 16.60021999999984
+        },
+        "resident_bytes": 536838144,
+        "tier": "dram",
+        "write_latency_us": {
+          "count": 43391.0,
+          "max": 3301.833,
+          "mean": 13.735636214883291,
+          "p50": 8.5,
+          "p95": 29.291,
+          "p99": 51.79619999999994
+        }
+      }
+    ]
+  }
+}

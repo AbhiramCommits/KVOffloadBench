@@ -1,0 +1,79 @@
+{
+  "active_tiers": [
+    "dram"
+  ],
+  "capacity_label": "medium",
+  "context_tokens": 32768,
+  "duration_s": 15.0,
+  "e2e_ms": {
+    "count": 23.0,
+    "max": 4223.145042,
+    "mean": 3603.5717753478266,
+    "p50": 4020.045958,
+    "p95": 4192.415408,
+    "p99": 4219.04810102
+  },
+  "engine_mode": "emulated",
+  "engine_selection_reason": "auto mode: missing cuda, vllm; using calibrated emulation (cuda=False, vllm=False, lmcache=False, nixl=False)",
+  "goodput_fraction_of_attempted": 1.0,
+  "goodput_req_s": 1.5333333333333334,
+  "goodput_requests": 23,
+  "itl_ms": {
+    "count": 1449.0,
+    "max": 33.870708,
+    "mean": 10.506563780538297,
+    "p50": 10.463791,
+    "p95": 15.17625,
+    "p99": 21.639462999999992
+  },
+  "kv_bytes_offloaded": 0,
+  "kv_bytes_restored": 0,
+  "max_concurrency": 16,
+  "name": "main",
+  "nvmeof_fell_back": false,
+  "offload_bandwidth_gib_s": 0.0,
+  "output_tokens_per_s": 98.13333333333334,
+  "output_tokens_total": 1472,
+  "per_tier_hits": [
+    4040
+  ],
+  "prefix_cache_hit_rate": 0.1715353260869565,
+  "request_rate": 2.0,
+  "requested_tiers": [
+    "dram"
+  ],
+  "requests_attempted": 23,
+  "requests_completed": 23,
+  "requests_failed": 0,
+  "requests_measured": 23,
+  "restore_bandwidth_gib_s": 0.0,
+  "restore_service_gib_s": 0.0,
+  "run_id": "main-dram_only-r2-c32768-kmedium-shared_prefix_rag",
+  "slo": {
+    "tpot_ms": 120.0,
+    "ttft_ms": 4000.0
+  },
+  "tier_chain": "dram_only",
+  "tpot_ms": {
+    "count": 23.0,
+    "max": 11.462988095238094,
+    "mean": 10.506563780538306,
+    "p50": 10.552521825396825,
+    "p95": 10.884952842857144,
+    "p99": 11.335936785714287
+  },
+  "trace": "traces/shared_prefix_rag.jsonl",
+  "trace_sha256": "6033ee38c141df3158543bc21746bbd80a852e4b2fc406d3be5cdd6c0b126c61",
+  "ttft_ms": {
+    "count": 23.0,
+    "max": 3551.463958,
+    "mean": 2941.658257173913,
+    "p50": 3359.363833,
+    "p95": 3530.6166829999993,
+    "p99": 3550.9321905
+  },
+  "wall_clock_s": 24.58990616700612,
+  "warmup_requests": 3,
+  "warmup_s": 1.0,
+  "window_s": 15.0
+}

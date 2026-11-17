@@ -1,0 +1,82 @@
+{
+  "active_tiers": [
+    "dram",
+    "nvme"
+  ],
+  "capacity_label": "medium",
+  "context_tokens": 32768,
+  "duration_s": 15.0,
+  "e2e_ms": {
+    "count": 23.0,
+    "max": 4444.285542,
+    "mean": 3674.880304391304,
+    "p50": 4079.6675,
+    "p95": 4262.0787914,
+    "p99": 4404.84329102
+  },
+  "engine_mode": "emulated",
+  "engine_selection_reason": "auto mode: missing cuda, vllm; using calibrated emulation (cuda=False, vllm=False, lmcache=False, nixl=False)",
+  "goodput_fraction_of_attempted": 1.0,
+  "goodput_req_s": 1.5333333333333334,
+  "goodput_requests": 23,
+  "itl_ms": {
+    "count": 1449.0,
+    "max": 23.456833,
+    "mean": 10.32646503450657,
+    "p50": 10.478959,
+    "p95": 12.511841400000002,
+    "p99": 13.560810319999996
+  },
+  "kv_bytes_offloaded": 1682669568,
+  "kv_bytes_restored": 0,
+  "max_concurrency": 16,
+  "name": "main",
+  "nvmeof_fell_back": false,
+  "offload_bandwidth_gib_s": 0.104473876953125,
+  "output_tokens_per_s": 98.13333333333334,
+  "output_tokens_total": 1472,
+  "per_tier_hits": [
+    4040,
+    0
+  ],
+  "prefix_cache_hit_rate": 0.1715353260869565,
+  "request_rate": 2.0,
+  "requested_tiers": [
+    "dram",
+    "nvme"
+  ],
+  "requests_attempted": 23,
+  "requests_completed": 23,
+  "requests_failed": 0,
+  "requests_measured": 23,
+  "restore_bandwidth_gib_s": 0.0,
+  "restore_service_gib_s": 0.0,
+  "run_id": "main-dram_nvme-r2-c32768-kmedium-shared_prefix_rag",
+  "slo": {
+    "tpot_ms": 120.0,
+    "ttft_ms": 4000.0
+  },
+  "tier_chain": "dram_nvme",
+  "tpot_ms": {
+    "count": 23.0,
+    "max": 10.726414015873017,
+    "mean": 10.326465034506557,
+    "p50": 10.319902126984127,
+    "p95": 10.535265815873016,
+    "p99": 10.684372193968255
+  },
+  "trace": "traces/shared_prefix_rag.jsonl",
+  "trace_sha256": "6033ee38c141df3158543bc21746bbd80a852e4b2fc406d3be5cdd6c0b126c61",
+  "ttft_ms": {
+    "count": 23.0,
+    "max": 3789.826542,
+    "mean": 3024.313007217391,
+    "p50": 3437.510167,
+    "p95": 3616.0193167,
+    "p99": 3752.4502102600004
+  },
+  "wall_clock_s": 24.941040667006746,
+  "warmup_requests": 3,
+  "warmup_s": 1.0,
+  "window_s": 15.0
+}

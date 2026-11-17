@@ -1,0 +1,79 @@
+{
+  "active_tiers": [
+    "dram"
+  ],
+  "capacity_label": "medium",
+  "context_tokens": 4096,
+  "duration_s": 15.0,
+  "e2e_ms": {
+    "count": 23.0,
+    "max": 1748.632958,
+    "mean": 1426.0890199565217,
+    "p50": 1502.815708,
+    "p95": 1690.9720423,
+    "p99": 1737.48104822
+  },
+  "engine_mode": "emulated",
+  "engine_selection_reason": "auto mode: missing cuda, vllm; using calibrated emulation (cuda=False, vllm=False, lmcache=False, nixl=False)",
+  "goodput_fraction_of_attempted": 1.0,
+  "goodput_req_s": 1.5333333333333334,
+  "goodput_requests": 23,
+  "itl_ms": {
+    "count": 1449.0,
+    "max": 56.531542,
+    "mean": 12.140255518978606,
+    "p50": 10.60275,
+    "p95": 19.511874999999996,
+    "p99": 30.93163351999999
+  },
+  "kv_bytes_offloaded": 0,
+  "kv_bytes_restored": 0,
+  "max_concurrency": 16,
+  "name": "main",
+  "nvmeof_fell_back": false,
+  "offload_bandwidth_gib_s": 0.0,
+  "output_tokens_per_s": 98.13333333333334,
+  "output_tokens_total": 1472,
+  "per_tier_hits": [
+    1736
+  ],
+  "prefix_cache_hit_rate": 0.29483695652173914,
+  "request_rate": 2.0,
+  "requested_tiers": [
+    "dram"
+  ],
+  "requests_attempted": 23,
+  "requests_completed": 23,
+  "requests_failed": 0,
+  "requests_measured": 23,
+  "restore_bandwidth_gib_s": 0.0,
+  "restore_service_gib_s": 0.0,
+  "run_id": "main-dram_only-r2-c4096-kmedium-shared_prefix_rag",
+  "slo": {
+    "tpot_ms": 120.0,
+    "ttft_ms": 4000.0
+  },
+  "tier_chain": "dram_only",
+  "tpot_ms": {
+    "count": 23.0,
+    "max": 14.895400793650794,
+    "mean": 12.140255518978607,
+    "p50": 12.412972873015873,
+    "p95": 14.393004228571428,
+    "p99": 14.793486956507937
+  },
+  "trace": "traces/shared_prefix_rag.jsonl",
+  "trace_sha256": "6033ee38c141df3158543bc21746bbd80a852e4b2fc406d3be5cdd6c0b126c61",
+  "ttft_ms": {
+    "count": 23.0,
+    "max": 923.05325,
+    "mean": 661.2529222608695,
+    "p50": 737.996542,
+    "p95": 892.2637210999998,
+    "p99": 918.98540424
+  },
+  "wall_clock_s": 19.7656801250414,
+  "warmup_requests": 3,
+  "warmup_s": 1.0,
+  "window_s": 15.0
+}

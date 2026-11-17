@@ -1,0 +1,79 @@
+{
+  "active_tiers": [
+    "dram"
+  ],
+  "capacity_label": "medium",
+  "context_tokens": 16384,
+  "duration_s": 15.0,
+  "e2e_ms": {
+    "count": 15.0,
+    "max": 4122.16475,
+    "mean": 3073.6278417333333,
+    "p50": 3745.385583,
+    "p95": 4107.1139330999995,
+    "p99": 4119.1545866199995
+  },
+  "engine_mode": "emulated",
+  "engine_selection_reason": "auto mode: missing cuda, vllm; using calibrated emulation (cuda=False, vllm=False, lmcache=False, nixl=False)",
+  "goodput_fraction_of_attempted": 1.0,
+  "goodput_req_s": 1.0,
+  "goodput_requests": 15,
+  "itl_ms": {
+    "count": 673.0,
+    "max": 24.994375,
+    "mean": 10.447324106983663,
+    "p50": 10.515334,
+    "p95": 11.879808399999998,
+    "p99": 15.172008719999969
+  },
+  "kv_bytes_offloaded": 0,
+  "kv_bytes_restored": 0,
+  "max_concurrency": 16,
+  "name": "main",
+  "nvmeof_fell_back": false,
+  "offload_bandwidth_gib_s": 0.0,
+  "output_tokens_per_s": 45.86666666666667,
+  "output_tokens_total": 688,
+  "per_tier_hits": [
+    1162
+  ],
+  "prefix_cache_hit_rate": 0.09456380208333333,
+  "request_rate": 1.0,
+  "requested_tiers": [
+    "dram"
+  ],
+  "requests_attempted": 15,
+  "requests_completed": 15,
+  "requests_failed": 0,
+  "requests_measured": 15,
+  "restore_bandwidth_gib_s": 0.0,
+  "restore_service_gib_s": 0.0,
+  "run_id": "main-dram_only-r1-c16384-kmedium-longctx_multiturn",
+  "slo": {
+    "tpot_ms": 120.0,
+    "ttft_ms": 4000.0
+  },
+  "tier_chain": "dram_only",
+  "tpot_ms": {
+    "count": 15.0,
+    "max": 11.323086,
+    "mean": 10.461882160313463,
+    "p50": 10.42996561904762,
+    "p95": 10.868995819354838,
+    "p99": 11.232267963870967
+  },
+  "trace": "traces/longctx_multiturn.jsonl",
+  "trace_sha256": "3494c28288b559669595d10ed47a79d5f2bf8a82bbfada8d74e6c917da21b58f",
+  "ttft_ms": {
+    "count": 15.0,
+    "max": 3536.199708,
+    "mean": 2604.8912334666666,
+    "p50": 3410.975875,
+    "p95": 3523.8113712000004,
+    "p99": 3533.72204064
+  },
+  "wall_clock_s": 23.96040716697462,
+  "warmup_requests": 2,
+  "warmup_s": 1.0,
+  "window_s": 15.0
+}

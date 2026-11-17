@@ -1,0 +1,85 @@
+{
+  "active_tiers": [
+    "dram",
+    "nvme",
+    "remote_tcp"
+  ],
+  "capacity_label": "medium",
+  "context_tokens": 4096,
+  "duration_s": 15.0,
+  "e2e_ms": {
+    "count": 116.0,
+    "max": 6412.885417,
+    "mean": 3737.025754681035,
+    "p50": 3812.7102915,
+    "p95": 5771.42554175,
+    "p99": 6062.481618749999
+  },
+  "engine_mode": "emulated",
+  "engine_selection_reason": "auto mode: missing cuda, vllm; using calibrated emulation (cuda=False, vllm=False, lmcache=False, nixl=False)",
+  "goodput_fraction_of_attempted": 0.6896551724137931,
+  "goodput_req_s": 5.333333333333333,
+  "goodput_requests": 80,
+  "itl_ms": {
+    "count": 7308.0,
+    "max": 529.148667,
+    "mean": 11.715647885468009,
+    "p50": 9.884541500000001,
+    "p95": 18.597283,
+    "p99": 37.95938162
+  },
+  "kv_bytes_offloaded": 2671214592,
+  "kv_bytes_restored": 0,
+  "max_concurrency": 16,
+  "name": "main",
+  "nvmeof_fell_back": false,
+  "offload_bandwidth_gib_s": 0.165850830078125,
+  "output_tokens_per_s": 494.93333333333334,
+  "output_tokens_total": 7424,
+  "per_tier_hits": [
+    6742,
+    0,
+    0
+  ],
+  "prefix_cache_hit_rate": 0.22703394396551724,
+  "request_rate": 8.0,
+  "requested_tiers": [
+    "dram",
+    "nvme",
+    "remote_tcp"
+  ],
+  "requests_attempted": 116,
+  "requests_completed": 116,
+  "requests_failed": 0,
+  "requests_measured": 116,
+  "restore_bandwidth_gib_s": 0.0,
+  "restore_service_gib_s": 0.0,
+  "run_id": "main-dram_nvme_remote_tcp-r8-c4096-kmedium-shared_prefix_rag",
+  "slo": {
+    "tpot_ms": 120.0,
+    "ttft_ms": 4000.0
+  },
+  "tier_chain": "dram_nvme_remote_tcp",
+  "tpot_ms": {
+    "count": 116.0,
+    "max": 18.850434523809525,
+    "mean": 11.715647885467979,
+    "p50": 11.097147492063492,
+    "p95": 15.898674273809524,
+    "p99": 18.621882496825393
+  },
+  "trace": "traces/shared_prefix_rag.jsonl",
+  "trace_sha256": "6033ee38c141df3158543bc21746bbd80a852e4b2fc406d3be5cdd6c0b126c61",
+  "ttft_ms": {
+    "count": 116.0,
+    "max": 5417.07725,
+    "mean": 2998.9399378965513,
+    "p50": 3133.5854375,
+    "p95": 5093.85200025,
+    "p99": 5245.8014625
+  },
+  "wall_clock_s": 25.75349383300636,
+  "warmup_requests": 9,
+  "warmup_s": 1.0,
+  "window_s": 15.0
+}

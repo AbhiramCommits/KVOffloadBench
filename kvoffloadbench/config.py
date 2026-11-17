@@ -557,7 +557,7 @@ def load_sweep(path: str | Path) -> list[RunConfig]:
     raw = _read_yaml(path)
     _check_keys(
         raw,
-        {"name", "description", "engine", "slo", "workload_defaults", "chains", "axes", "include", "exclude"},
+        {"name", "description", "engine", "slo", "workload_defaults", "chains", "axes", "include", "exclude", "drop_caches", "drain_timeout_s"},
         "sweep",
     )
     if "name" not in raw:
@@ -613,11 +613,27 @@ def load_sweep(path: str | Path) -> list[RunConfig]:
 
     seen: set[str] = set()
     run_configs: list[RunConfig] = []
+
+    def _resolve_include(axis: str, value: Any) -> list[tuple[Any, str]]:
+        items = _axis_values(value, f"include.{axis}")
+        mapping = axes_raw[axis]
+        if isinstance(mapping, dict):
+            resolved: list[tuple[Any, str]] = []
+            for item, _ in items:
+                if item not in mapping:
+                    raise ConfigError(
+                        f"include value {item!r} for axis {axis!r} is not a label in "
+                        f"axes.{axis} ({sorted(mapping)})"
+                    )
+                resolved.append((mapping[item], str(item)))
+            return resolved
+        return items
+
     for block, axis_names in zip(blocks, axis_sets, strict=False):
         value_lists = []
         for axis in axis_names:
             if axis in block:
-                value_lists.append(_axis_values(block[axis], f"include.{axis}"))
+                value_lists.append(_resolve_include(axis, block[axis]))
             else:
                 value_lists.append(axis_values[axis])
         for combo in itertools.product(*value_lists):
